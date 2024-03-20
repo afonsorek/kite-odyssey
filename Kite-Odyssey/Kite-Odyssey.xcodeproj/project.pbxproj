@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		A93D544C2BAB01160094ACA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93D544B2BAB01160094ACA7 /* AppDelegate.swift */; };
 		A93D544E2BAB01160094ACA7 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A93D544D2BAB01160094ACA7 /* GameScene.sks */; };
-		A93D54502BAB01160094ACA7 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = A93D544F2BAB01160094ACA7 /* Actions.sks */; };
 		A93D54522BAB01160094ACA7 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93D54512BAB01160094ACA7 /* GameScene.swift */; };
 		A93D54542BAB01160094ACA7 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93D54532BAB01160094ACA7 /* GameViewController.swift */; };
 		A93D54572BAB01160094ACA7 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = A93D54562BAB01160094ACA7 /* Base */; };
@@ -21,7 +20,6 @@
 		A93D54482BAB01160094ACA7 /* Kite-Odyssey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kite-Odyssey.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A93D544B2BAB01160094ACA7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A93D544D2BAB01160094ACA7 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		A93D544F2BAB01160094ACA7 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		A93D54512BAB01160094ACA7 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		A93D54532BAB01160094ACA7 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		A93D54562BAB01160094ACA7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -61,7 +59,6 @@
 			children = (
 				A93D544B2BAB01160094ACA7 /* AppDelegate.swift */,
 				A93D544D2BAB01160094ACA7 /* GameScene.sks */,
-				A93D544F2BAB01160094ACA7 /* Actions.sks */,
 				A93D54512BAB01160094ACA7 /* GameScene.swift */,
 				A93D54532BAB01160094ACA7 /* GameViewController.swift */,
 				A93D54552BAB01160094ACA7 /* Main.storyboard */,
@@ -132,7 +129,6 @@
 				A93D544E2BAB01160094ACA7 /* GameScene.sks in Resources */,
 				A93D54572BAB01160094ACA7 /* Base in Resources */,
 				A93D54592BAB01170094ACA7 /* Assets.xcassets in Resources */,
-				A93D54502BAB01160094ACA7 /* Actions.sks in Resources */,
 				A93D545C2BAB01170094ACA7 /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -306,6 +302,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -334,6 +331,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
