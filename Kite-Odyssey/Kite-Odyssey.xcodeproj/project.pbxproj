@@ -20,6 +20,7 @@
 		A97D49892BAD05AD000AD0A3 /* Livvic-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A97D49862BAD05AD000AD0A3 /* Livvic-Black.ttf */; };
 		A97D498A2BAD05AD000AD0A3 /* Livvic-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A97D49872BAD05AD000AD0A3 /* Livvic-Light.ttf */; };
 		A97D498B2BAD05AD000AD0A3 /* Livvic-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A97D49882BAD05AD000AD0A3 /* Livvic-Regular.ttf */; };
+		A9FB07812BAD394C0094563E /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A9FB07802BAD394C0094563E /* MyParticle.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		A97D49872BAD05AD000AD0A3 /* Livvic-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Livvic-Light.ttf"; path = "../../../../Downloads/Livvic/Livvic-Light.ttf"; sourceTree = "<group>"; };
 		A97D49882BAD05AD000AD0A3 /* Livvic-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Livvic-Regular.ttf"; path = "../../../../Downloads/Livvic/Livvic-Regular.ttf"; sourceTree = "<group>"; };
 		A97D498C2BAD05DA000AD0A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A9FB07802BAD394C0094563E /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				A93D544D2BAB01160094ACA7 /* GameScene.sks */,
 				A97D49802BACA51E000AD0A3 /* MenuScene.sks */,
 				A93D54512BAB01160094ACA7 /* GameScene.swift */,
+				A9FB07802BAD394C0094563E /* MyParticle.sks */,
 				A97D49822BACA633000AD0A3 /* MenuScene.swift */,
 				A97D49842BACB6FB000AD0A3 /* Object.swift */,
 				A93D54532BAB01160094ACA7 /* GameViewController.swift */,
@@ -150,6 +153,7 @@
 				A97D498A2BAD05AD000AD0A3 /* Livvic-Light.ttf in Resources */,
 				A97D498B2BAD05AD000AD0A3 /* Livvic-Regular.ttf in Resources */,
 				A93D54572BAB01160094ACA7 /* Base in Resources */,
+				A9FB07812BAD394C0094563E /* MyParticle.sks in Resources */,
 				A93D54592BAB01170094ACA7 /* Assets.xcassets in Resources */,
 				A97D49812BACA51E000AD0A3 /* MenuScene.sks in Resources */,
 				A93D545C2BAB01170094ACA7 /* Base in Resources */,

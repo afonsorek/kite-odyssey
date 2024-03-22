@@ -14,6 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     let thresholdAngle: CGFloat = 45.0
     
     //private var backgroundNodes: [SKShapeNode] = []
+    private var trail = [CGPoint]()
     
     private var background: SKSpriteNode?
     private var playerScore: SKLabelNode?
@@ -29,14 +30,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     private var score = 0
     
     override func sceneDidLoad() {
-        //setUpBackground()
         lastUpdateTime = 0
     }
     
     override func didMove(to view: SKView) {
-        
         physicsWorld.contactDelegate = self
-        
         
         if let record = UserDefaults.standard.object(forKey: "bestScore") as? Int {
             print(record)
@@ -45,9 +43,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         }
         
         self.background = self.childNode(withName: "long-bg") as? SKSpriteNode
-        
+        self.background?.zPosition = -10
         self.background?.run(SKAction.repeatForever(SKAction.sequence([SKAction.run {
-            self.background?.position.y-=1
+            self.background?.position.y-=0.1
         }, SKAction.wait(forDuration: 0.01)])))
         
         self.bestLabel = self.childNode(withName: "bestScore") as? SKLabelNode
@@ -68,7 +66,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         }, SKAction.wait(forDuration: Double(score == 0 ? 2 : score))])))
         self.kite = self.childNode(withName: "kite")
         self.kite?.physicsBody?.velocity = CGVector(dx: 0, dy: 600)
+        self.kite?.physicsBody?.allowsRotation = true
         self.kite?.physicsBody?.contactTestBitMask = (self.kite?.physicsBody!.collisionBitMask)!
+        
+//        let emitter = SKEmitterNode(fileNamed: "MyParticle.sks")
+//        emitter?.targetNode = self
+//        emitter?.position = CGPoint(x: (kite?.frame.width)!, y: -(kite?.frame.height)!)
+//        emitter?.particleSize = CGSize(width: 35, height: 35)
+//
+//        self.kite?.addChild(emitter!)
+        
         
         self.right = self.childNode(withName: "right")
         self.right?.physicsBody = SKPhysicsBody(rectangleOf: (self.right?.frame.size)!)
@@ -85,22 +92,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         self.bottom?.physicsBody?.affectedByGravity = false
         self.bottom?.physicsBody?.isDynamic = false
         
-        
-//        let swipeRight : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(GameScene.swipeRight))
-//        swipeRight.direction = .right
-//        view.addGestureRecognizer(swipeRight)
-//        
-//        let swipeLeft : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(GameScene.swipeLeft))
-//        swipeLeft.direction = .left
-//        view.addGestureRecognizer(swipeLeft)
-//        
-//        let swipeDown : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(GameScene.swipeDown))
-//        swipeDown.direction = .down
-//        view.addGestureRecognizer(swipeDown)
-//        
-//        let swipeUp : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(GameScene.swipeUp))
-//        swipeUp.direction = .up
-//        view.addGestureRecognizer(swipeUp)
         let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
         view.addGestureRecognizer(panRecognizer)
         
@@ -139,48 +130,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
          self.addChild(enemy)
      }
     
-    func makeTrail() -> SKNode {
-      let trailC = SKSpriteNode(imageNamed: "trail")
-      let trailL = SKSpriteNode(imageNamed: "trail")
-      let trailR = SKSpriteNode(imageNamed: "trail")
-
-      trailL.position.x = -512
-      trailR.position.x = 512
-
-      let trails = SKNode()
-      trails.addChild(trailC)
-      trails.addChild(trailL)
-      trails.addChild(trailR)
-
-      return trails
-    }
-    
-    func touchDown(atPoint pos : CGPoint) {
-    }
-    
-    @objc func swipeDown(sender: UISwipeGestureRecognizer){
-        self.kite?.physicsBody?.velocity = CGVector(dx: 0, dy: -300)
-        print("swiped down")
-    }
-    
-    @objc func swipeUp(sender: UISwipeGestureRecognizer){
-        self.kite?.physicsBody?.velocity = CGVector(dx: 0, dy: 450)
-        print("swiped up")
-    }
-    
-    @objc func swipeRight(sender: UISwipeGestureRecognizer){
-        self.kite?.physicsBody?.velocity = CGVector(dx: 230, dy: 100)
-        print("swiped rig")
-    }
-    
-    @objc func swipeLeft(sender: UISwipeGestureRecognizer){
-        self.kite?.physicsBody?.velocity = CGVector(dx: -230, dy: 10)
-        print("swiped lef")
-    }
-    
-    
-    func touchUp(atPoint pos : CGPoint) {
-        
+    private func emitt(atPoint pos : CGPoint) {
+        let emitter = SKEmitterNode(fileNamed: "MyParticle.sks")
+        emitter?.targetNode = self
+        emitter?.position = pos
+        emitter?.particleSize = CGSize(width: 35, height: 35)
+        self.addChild(emitter!)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -203,18 +158,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        //
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches {
+            emitt(atPoint: t.location(in: self))
+        }
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-        if contact.bodyA.node?.name == "kite" {
-            print("node \(String(describing: contact.bodyA.node?.name)) colidiu com o node \(String(describing: contact.bodyB.node?.name))")
-            collisionBetween(kite: contact.bodyA.node!, object: contact.bodyB.node!)
+        if contact.bodyA.node?.name == "kite" ||  contact.bodyB.node?.name == "kite"{
+            self.kite?.removeFromParent()
             
             let record = UserDefaults.standard.object(forKey: "bestScore") as? Int
             print(record ?? 0)
@@ -223,49 +175,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             }
             
             self.scene?.view?.isPaused = true
-            
+            //------------------------------------------------------------------------------------------------------
             //DEATH SCREEN
-            let filter = SKSpriteNode(color: UIColor(ciColor: CIColor(red: 0, green: 0, blue: 0, alpha: 0.4)), size: self.size)
+            
+            let filter = SKSpriteNode(color: UIColor(ciColor: CIColor(red: 0, green: 0, blue: 0, alpha: 0.2)), size: self.size)
             filter.zPosition = 20
             self.addChild(filter)
             
-            let restart = SKSpriteNode(color: .gray, size: CGSize(width: 300, height: 200))
-            restart.name = "restart"
-            restart.zPosition = 21
-            let text = SKLabelNode(text: "Restart")
-            text.fontSize = 30
+            let banner = SKSpriteNode(imageNamed: "banner")
+            banner.name = "banner"
+            banner.zPosition = 21
+            banner.setScale(0.6)
+            let text = SKLabelNode(text: "\(score) m")
+            text.fontSize = 200
+            text.fontName = "Livvic-Black"
+            text.position.y -= 45
             text.zPosition = 22
-            
-            self.addChild(restart)
-            self.addChild(text)
-            
-        } else if contact.bodyB.node?.name == "kite" {
-            print("node \(String(describing: contact.bodyB.node?.name)) colidiu com o node \(String(describing: contact.bodyA.node?.name))")
-            collisionBetween(kite: contact.bodyB.node!, object: contact.bodyA.node!)
-            
-            if let record = UserDefaults.standard.object(forKey: "bestScore") as? Int {
-                print(record)
-                if score > record {
-                    UserDefaults.standard.set(score, forKey: "bestScore")
-                }
-            }
-            
-            self.scene?.view?.isPaused = true
-            
-            //DEATH SCREEN
-            let filter = SKSpriteNode(color: UIColor(ciColor: CIColor(red: 0, green: 0, blue: 0, alpha: 0.4)), size: self.size)
-            filter.zPosition = 20
-            self.addChild(filter)
-            
-            let restart = SKSpriteNode(color: .gray, size: CGSize(width: 300, height: 200))
+            let restart:SKSpriteNode = SKSpriteNode(imageNamed: "restart")
             restart.name = "restart"
+            restart.setScale(0.65)
             restart.zPosition = 21
-            let text = SKLabelNode(text: "Restart")
-            text.fontSize = 30
-            text.zPosition = 22
             
+            banner.position.y = (self.size.height/2)-200
+            self.addChild(banner)
+            banner.addChild(text)
             self.addChild(restart)
-            self.addChild(text)
+            
+            self.playerScore?.removeFromParent()
+            self.bestLabel?.removeFromParent()
+            
+            //------------------------------------------------------------------------------------------------------
+
         }
         
         if contact.bodyA.node?.name == "enemy" {
@@ -281,11 +221,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         }
     }
     
+    private func createTrail() {
+        let trailNode = SKShapeNode()
+        let path = CGMutablePath()
+        path.move(to: self.kite!.position)
+        trailNode.path = path
+        trailNode.strokeColor = .red
+        trailNode.lineWidth = 8
+        trailNode.zPosition = -1
+        addChild(trailNode)
+        
+        let waitAction = SKAction.wait(forDuration: 1)
+        let updateTrailAction = SKAction.run {
+            self.trail.append(self.kite!.position)
+            while self.trail.count > 20 {
+                self.trail.removeFirst()
+            }
+            let path = CGMutablePath()
+            path.move(to: self.trail[0])
+            for i in 1..<self.trail.count {
+                path.addLine(to: self.trail[i])
+            }
+            trailNode.path = path
+        }
+        let removeAction = SKAction.sequence([
+            SKAction.wait(forDuration: 2),
+            SKAction.fadeOut(withDuration: 1),
+            SKAction.removeFromParent()
+        ])
+        let sequenceAction = SKAction.sequence([waitAction, updateTrailAction, removeAction])
+        trailNode.run(sequenceAction)
+    }
+    
     private func collisionBetween(kite: SKNode, object: SKNode) {
         self.kite?.removeFromParent()
     }
     
     override func update(_ currentTime: TimeInterval) {
-        //
+        createTrail()
     }
 }
