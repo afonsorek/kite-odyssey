@@ -40,7 +40,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
                   if let scene = SKScene(fileNamed: "GameScene") {
                       scene.scaleMode = .aspectFill
                       
-                      self.view?.presentScene(scene)
+                      self.view?.presentScene(scene, transition: .reveal(with: .up, duration: 1))
                   }
                   
                   self.view?.ignoresSiblingOrder = true
