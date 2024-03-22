@@ -285,41 +285,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         self.kite?.removeFromParent()
     }
     
-//    private func setUpBackground() {
-//        
-//        let yellowBackgroundTop = SKShapeNode(rectOf: CGSize(width: self.size.width, height: self.size.height/2))
-//        yellowBackgroundTop.position = CGPoint(x: self.frame.midX, y: 0.75*self.size.height)
-//        yellowBackgroundTop.zPosition = -15
-//        yellowBackgroundTop.strokeColor = .systemGray6
-//        yellowBackgroundTop.fillColor = .systemGray6
-//        
-//        let yellowBackgroundBottom = SKShapeNode(rectOf: CGSize(width: self.size.width, height: self.size.height/2))
-//        yellowBackgroundBottom.position = CGPoint(x: self.frame.midX, y: -0.25*self.size.height)
-//        yellowBackgroundBottom.zPosition = -15
-//        yellowBackgroundBottom.strokeColor = .systemGray6
-//        yellowBackgroundBottom.fillColor = .systemGray6
-//  
-//        
-//        let redBackgroundTop = SKShapeNode(rectOf: CGSize(width: self.size.width, height: self.size.height/2))
-//        redBackgroundTop.position = CGPoint(x: self.frame.midX, y:  0.25*self.size.height)
-//        redBackgroundTop.zPosition = -15
-//        redBackgroundTop.strokeColor = .systemGray3
-//        redBackgroundTop.fillColor = .systemGray3
-//        
-//        let redBackgroundBottom = SKShapeNode(rectOf: CGSize(width: self.size.width, height: self.size.height/2))
-//        redBackgroundBottom.position = CGPoint(x: self.frame.midX, y: -0.75*self.size.height)
-//        redBackgroundBottom.zPosition = -15
-//        redBackgroundBottom.strokeColor = .systemGray3
-//        redBackgroundBottom.fillColor = .systemGray3
-//
-//        self.addChild(yellowBackgroundTop)
-//        self.addChild(yellowBackgroundBottom)
-//        self.addChild(redBackgroundTop)
-//        self.addChild(redBackgroundBottom)
-//        
-//        backgroundNodes.append(contentsOf: [yellowBackgroundTop, yellowBackgroundBottom, redBackgroundTop, redBackgroundBottom])
-//    }
-    
     override func update(_ currentTime: TimeInterval) {
         //
     }
