@@ -27,7 +27,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     private var startLocation: CGPoint?
     
     private var lastUpdateTime: TimeInterval = 0
-    private var backgroundSpeed: Double = 300.0
     private var score = 0
     
     override func sceneDidLoad() {
@@ -44,7 +43,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         self.background = self.childNode(withName: "long-bg") as? SKSpriteNode
         self.background?.zPosition = -10
         self.background?.run(SKAction.repeatForever(SKAction.sequence([SKAction.run {
-            self.background?.position.y-=0.15
+            self.background?.position.y-=0.5
         }, SKAction.wait(forDuration: 0.01)])))
         
         self.bestLabel = self.childNode(withName: "bestScore") as? SKLabelNode
@@ -105,7 +104,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             translation.y = endLocation.y - startLocation.y
 
             // Calculate proportional velocity based on node size and screen width
-            let velocity = CGVector(dx: translation.x*5, dy: -translation.y*6)
+            let velocity = CGVector(dx: translation.x*7.5, dy: -translation.y*6.5)
 //            let scaledVelocity = velocity * (self.kite?.frame.size.width / view!.bounds.width)
             
             kite?.run(SKAction.rotate(toAngle: 0, duration: 0.07))
