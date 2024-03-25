@@ -17,9 +17,9 @@
 		A97D49812BACA51E000AD0A3 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A97D49802BACA51E000AD0A3 /* MenuScene.sks */; };
 		A97D49832BACA633000AD0A3 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97D49822BACA633000AD0A3 /* MenuScene.swift */; };
 		A97D49852BACB6FB000AD0A3 /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97D49842BACB6FB000AD0A3 /* Object.swift */; };
-		A97D49892BAD05AD000AD0A3 /* Livvic-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A97D49862BAD05AD000AD0A3 /* Livvic-Black.ttf */; };
-		A97D498A2BAD05AD000AD0A3 /* Livvic-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A97D49872BAD05AD000AD0A3 /* Livvic-Light.ttf */; };
-		A97D498B2BAD05AD000AD0A3 /* Livvic-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A97D49882BAD05AD000AD0A3 /* Livvic-Regular.ttf */; };
+		A9A4BC072BB1FF2500675F25 /* Livvic-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC042BB1FF2500675F25 /* Livvic-Black.ttf */; };
+		A9A4BC082BB1FF2500675F25 /* Livvic-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC052BB1FF2500675F25 /* Livvic-Light.ttf */; };
+		A9A4BC092BB1FF2500675F25 /* Livvic-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC062BB1FF2500675F25 /* Livvic-Regular.ttf */; };
 		A9FB07812BAD394C0094563E /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A9FB07802BAD394C0094563E /* MyParticle.sks */; };
 /* End PBXBuildFile section */
 
@@ -35,10 +35,10 @@
 		A97D49802BACA51E000AD0A3 /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		A97D49822BACA633000AD0A3 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		A97D49842BACB6FB000AD0A3 /* Object.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Object.swift; sourceTree = "<group>"; };
-		A97D49862BAD05AD000AD0A3 /* Livvic-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Livvic-Black.ttf"; path = "../../../../Downloads/Livvic/Livvic-Black.ttf"; sourceTree = "<group>"; };
-		A97D49872BAD05AD000AD0A3 /* Livvic-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Livvic-Light.ttf"; path = "../../../../Downloads/Livvic/Livvic-Light.ttf"; sourceTree = "<group>"; };
-		A97D49882BAD05AD000AD0A3 /* Livvic-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Livvic-Regular.ttf"; path = "../../../../Downloads/Livvic/Livvic-Regular.ttf"; sourceTree = "<group>"; };
-		A97D498C2BAD05DA000AD0A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A97D498C2BAD05DA000AD0A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A9A4BC042BB1FF2500675F25 /* Livvic-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Livvic-Black.ttf"; sourceTree = "<group>"; };
+		A9A4BC052BB1FF2500675F25 /* Livvic-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Livvic-Light.ttf"; sourceTree = "<group>"; };
+		A9A4BC062BB1FF2500675F25 /* Livvic-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Livvic-Regular.ttf"; sourceTree = "<group>"; };
 		A9FB07802BAD394C0094563E /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -73,22 +73,62 @@
 			isa = PBXGroup;
 			children = (
 				A97D498C2BAD05DA000AD0A3 /* Info.plist */,
-				A93D544B2BAB01160094ACA7 /* AppDelegate.swift */,
-				A93D544D2BAB01160094ACA7 /* GameScene.sks */,
-				A97D49802BACA51E000AD0A3 /* MenuScene.sks */,
-				A93D54512BAB01160094ACA7 /* GameScene.swift */,
-				A9FB07802BAD394C0094563E /* MyParticle.sks */,
-				A97D49822BACA633000AD0A3 /* MenuScene.swift */,
-				A97D49842BACB6FB000AD0A3 /* Object.swift */,
-				A93D54532BAB01160094ACA7 /* GameViewController.swift */,
-				A93D54552BAB01160094ACA7 /* Main.storyboard */,
-				A93D54582BAB01170094ACA7 /* Assets.xcassets */,
-				A93D545A2BAB01170094ACA7 /* LaunchScreen.storyboard */,
-				A97D49862BAD05AD000AD0A3 /* Livvic-Black.ttf */,
-				A97D49872BAD05AD000AD0A3 /* Livvic-Light.ttf */,
-				A97D49882BAD05AD000AD0A3 /* Livvic-Regular.ttf */,
+				A9A4BC0F2BB2000700675F25 /* App */,
+				A9A4BC0C2BB1FF9700675F25 /* SceneController */,
+				A9A4BC0A2BB1FF7B00675F25 /* Model */,
+				A9A4BC0D2BB1FFBB00675F25 /* Scenes */,
+				A9A4BC0E2BB1FFED00675F25 /* Resources */,
 			);
 			path = "Kite-Odyssey";
+			sourceTree = "<group>";
+		};
+		A9A4BC0A2BB1FF7B00675F25 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A97D49842BACB6FB000AD0A3 /* Object.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A9A4BC0C2BB1FF9700675F25 /* SceneController */ = {
+			isa = PBXGroup;
+			children = (
+				A97D49822BACA633000AD0A3 /* MenuScene.swift */,
+				A93D54512BAB01160094ACA7 /* GameScene.swift */,
+			);
+			path = SceneController;
+			sourceTree = "<group>";
+		};
+		A9A4BC0D2BB1FFBB00675F25 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				A97D49802BACA51E000AD0A3 /* MenuScene.sks */,
+				A93D544D2BAB01160094ACA7 /* GameScene.sks */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		A9A4BC0E2BB1FFED00675F25 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A9A4BC042BB1FF2500675F25 /* Livvic-Black.ttf */,
+				A9A4BC052BB1FF2500675F25 /* Livvic-Light.ttf */,
+				A9A4BC062BB1FF2500675F25 /* Livvic-Regular.ttf */,
+				A93D54582BAB01170094ACA7 /* Assets.xcassets */,
+				A9FB07802BAD394C0094563E /* MyParticle.sks */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A9A4BC0F2BB2000700675F25 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A93D54552BAB01160094ACA7 /* Main.storyboard */,
+				A93D545A2BAB01170094ACA7 /* LaunchScreen.storyboard */,
+				A93D54532BAB01160094ACA7 /* GameViewController.swift */,
+				A93D544B2BAB01160094ACA7 /* AppDelegate.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,15 +189,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9A4BC082BB1FF2500675F25 /* Livvic-Light.ttf in Resources */,
 				A93D544E2BAB01160094ACA7 /* GameScene.sks in Resources */,
-				A97D498A2BAD05AD000AD0A3 /* Livvic-Light.ttf in Resources */,
-				A97D498B2BAD05AD000AD0A3 /* Livvic-Regular.ttf in Resources */,
+				A9A4BC092BB1FF2500675F25 /* Livvic-Regular.ttf in Resources */,
 				A93D54572BAB01160094ACA7 /* Base in Resources */,
 				A9FB07812BAD394C0094563E /* MyParticle.sks in Resources */,
+				A9A4BC072BB1FF2500675F25 /* Livvic-Black.ttf in Resources */,
 				A93D54592BAB01170094ACA7 /* Assets.xcassets in Resources */,
 				A97D49812BACA51E000AD0A3 /* MenuScene.sks in Resources */,
 				A93D545C2BAB01170094ACA7 /* Base in Resources */,
-				A97D49892BAD05AD000AD0A3 /* Livvic-Black.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
