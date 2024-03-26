@@ -20,6 +20,8 @@
 		A9A4BC072BB1FF2500675F25 /* Livvic-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC042BB1FF2500675F25 /* Livvic-Black.ttf */; };
 		A9A4BC082BB1FF2500675F25 /* Livvic-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC052BB1FF2500675F25 /* Livvic-Light.ttf */; };
 		A9A4BC092BB1FF2500675F25 /* Livvic-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC062BB1FF2500675F25 /* Livvic-Regular.ttf */; };
+		A9A4BC112BB202A100675F25 /* Kite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A4BC102BB202A100675F25 /* Kite.swift */; };
+		A9A4BC132BB2455B00675F25 /* DeathScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A4BC122BB2455B00675F25 /* DeathScene.swift */; };
 		A9FB07812BAD394C0094563E /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A9FB07802BAD394C0094563E /* MyParticle.sks */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +41,8 @@
 		A9A4BC042BB1FF2500675F25 /* Livvic-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Livvic-Black.ttf"; sourceTree = "<group>"; };
 		A9A4BC052BB1FF2500675F25 /* Livvic-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Livvic-Light.ttf"; sourceTree = "<group>"; };
 		A9A4BC062BB1FF2500675F25 /* Livvic-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Livvic-Regular.ttf"; sourceTree = "<group>"; };
+		A9A4BC102BB202A100675F25 /* Kite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kite.swift; sourceTree = "<group>"; };
+		A9A4BC122BB2455B00675F25 /* DeathScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeathScene.swift; sourceTree = "<group>"; };
 		A9FB07802BAD394C0094563E /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				A97D49842BACB6FB000AD0A3 /* Object.swift */,
+				A9A4BC102BB202A100675F25 /* Kite.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -95,6 +100,7 @@
 			children = (
 				A97D49822BACA633000AD0A3 /* MenuScene.swift */,
 				A93D54512BAB01160094ACA7 /* GameScene.swift */,
+				A9A4BC122BB2455B00675F25 /* DeathScene.swift */,
 			);
 			path = SceneController;
 			sourceTree = "<group>";
@@ -210,9 +216,11 @@
 			files = (
 				A97D49852BACB6FB000AD0A3 /* Object.swift in Sources */,
 				A93D54522BAB01160094ACA7 /* GameScene.swift in Sources */,
+				A9A4BC112BB202A100675F25 /* Kite.swift in Sources */,
 				A97D49832BACA633000AD0A3 /* MenuScene.swift in Sources */,
 				A93D54542BAB01160094ACA7 /* GameViewController.swift in Sources */,
 				A93D544C2BAB01160094ACA7 /* AppDelegate.swift in Sources */,
+				A9A4BC132BB2455B00675F25 /* DeathScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
