@@ -30,7 +30,7 @@ class Object: SKNode {
 
         self.physicsBody?.allowsRotation = true
         self.physicsBody?.isDynamic = true
-        self.physicsBody?.applyAngularImpulse(45.0)
+        self.physicsBody?.angularVelocity = 5.0
         
         //    add image to the object
         self.addChild(image)

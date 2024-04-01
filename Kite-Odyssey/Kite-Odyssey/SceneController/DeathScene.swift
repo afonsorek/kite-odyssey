@@ -25,6 +25,7 @@ class DeathScene: SKNode{
         text.fontName = "Livvic-Black"
         text.position.y -= 45
         text.zPosition = 22
+        
         let restart:SKSpriteNode = SKSpriteNode(imageNamed: "restart")
         restart.name = "restart"
         restart.setScale(0.65)

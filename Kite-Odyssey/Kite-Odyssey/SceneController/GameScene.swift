@@ -32,6 +32,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     private var score = 0
     private var translation: CGPoint = CGPoint(x: 0, y: 0)
     
+    private var velocity = 0.5
+    
     override func sceneDidLoad() {
         //Set Best Score
         checkRecord()
@@ -67,7 +69,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         self.background = self.childNode(withName: "long-bg") as? SKSpriteNode
         self.background?.zPosition = -10
         self.background?.run(SKAction.repeatForever(SKAction.sequence([SKAction.run {
-            self.background?.position.y-=0.5
+            self.background?.position.y-=self.velocity
         }, SKAction.wait(forDuration: 0.01)])))
         
         self.bestLabel = self.childNode(withName: "bestScore") as? SKLabelNode
@@ -86,11 +88,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         self.run(SKAction.repeatForever(SKAction.sequence([SKAction.run {
             self.spawnEnemy()
         }, SKAction.wait(forDuration: 2)])))
-
-        self.bottom = self.childNode(withName: "bottom")
-        self.bottom?.physicsBody = SKPhysicsBody(rectangleOf: (self.bottom?.frame.size)!)
-        self.bottom?.physicsBody?.affectedByGravity = false
-        self.bottom?.physicsBody?.isDynamic = false
         
         let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
         view.addGestureRecognizer(panRecognizer)
@@ -121,18 +118,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     }
     
     func spawnEnemy(){
-        var enemyList: [String] = []
+        var enemyList: [String] = ["enemy-bike"]
         if self.score > 100{
             enemyList = ["enemy-bike", "enemy-car"]
-        }else{
-            enemyList = ["enemy-bike"]
         }
         let randomName = enemyList.randomElement()!
         let enemy = Object(image: SKSpriteNode(imageNamed: randomName), name: randomName)
-        enemy.name = randomName
-        enemy.physicsBody?.allowsRotation = true
-        enemy.physicsBody?.angularVelocity = 5.0
-        self.addChild(enemy)
+        if score>10 && score < 15{
+            let powerUp = PowerUp()
+            powerUp.setBody()
+            powerUp.node.name = "powerUp"
+            self.run(SKAction.sequence([
+                SKAction.run {
+                    self.addChild(enemy)
+                },
+                SKAction.wait(forDuration: 0.5),
+                SKAction.run {
+                    self.addChild(powerUp.node)
+                },
+                SKAction.wait(forDuration: 2.0),
+                SKAction.run {
+                    enemy.removeFromParent()
+                }
+            ]))
+        }else{
+            self.addChild(enemy)
+            enemy.run(SKAction.sequence([SKAction.wait(forDuration: 2.0), SKAction.run {
+                enemy.removeFromParent()
+            }]))
+        }
      }
     
     func checkRecord(){
@@ -160,16 +174,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     func didBegin(_ contact: SKPhysicsContact) {
         if contact.bodyA.node?.name == "kite" ||  contact.bodyB.node?.name == "kite"{
-            playerDeath()
-        }
-        
-        if contact.bodyA.node?.name == "enemy-bike" || contact.bodyA.node?.name == "enemy-car" {
-            if contact.bodyB.node?.name == "bottom"{
-                contact.bodyA.node?.removeFromParent()
-            }
-        } else if contact.bodyB.node?.name == "enemy-bike" || contact.bodyB.node?.name == "enemy-car"{
-            if contact.bodyB.node?.name == "bottom"{
-                contact.bodyB.node?.removeFromParent()
+            if contact.bodyA.node?.name == "powerUp" || contact.bodyB.node?.name == "powerUp"{
+                self.run(SKAction.sequence([
+                    SKAction.run {
+                        self.view!.isUserInteractionEnabled = false
+                        self.kite?.powerUp(screen: self.frame)
+                        
+                        let emitter = SKEmitterNode(fileNamed: "MyParticle")
+                        emitter?.name = "wind"
+                        self.addChild(emitter!)
+                        
+                        self.velocity = 3.0
+                },
+                    SKAction.wait(forDuration: 4),
+                    SKAction.run {
+                        self.view!.isUserInteractionEnabled = true
+                        self.velocity = 0.5
+                        self.childNode(withName: "wind")?.removeFromParent()
+                }
+                ]))
+            }else{
+                playerDeath()
             }
         }
     }
@@ -205,22 +230,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         trailNode.run(sequenceAction)
     }
     
-    func checkPosition(){
-        let x = kite!.child!.position.x
-        let y = kite!.child!.position.y
-        if (x > -(frame.width/2) && x < (frame.width/2)) && (y < frame.width/2) && (y > -(frame.width/2)){
-            playerDeath()
-        }else{
-        }
-    }
     
     override func update(_ currentTime: TimeInterval) {
-        if count > 200{
-            createTrail()
-            checkPosition()
-        }else{
-            createTrail()
-            count+=1
+        createTrail()
+        if !intersects(kite!.child!){
+            playerDeath()
         }
     }
 }
