@@ -17,7 +17,6 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
     
     override func didMove(to view: SKView) {
         self.button = self.childNode(withName: "button") as? SKSpriteNode
-        
         self.bestScore = self.childNode(withName: "bestScore") as? SKLabelNode
         self.bestScore?.fontName = "Livvic-Regular"
         

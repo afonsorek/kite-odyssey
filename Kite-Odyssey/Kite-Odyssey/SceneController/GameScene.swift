@@ -30,6 +30,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     private var lastUpdateTime: TimeInterval = 0
     private var score = 0
+    private var scoreBase = 1
     private var translation: CGPoint = CGPoint(x: 0, y: 0)
     
     private var velocity = 0.5
@@ -81,7 +82,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         self.playerScore?.text = "\(score) m"
         
         self.playerScore?.run(SKAction.repeatForever(SKAction.sequence([SKAction.run {
-            self.score += 1
+            self.score += self.scoreBase
             self.playerScore?.text = "\(self.score) m"
         }, SKAction.wait(forDuration: 0.5)])))
         
@@ -179,7 +180,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
                     SKAction.run {
                         self.view!.isUserInteractionEnabled = false
                         self.kite?.powerUp(screen: self.frame)
-                        
+                        self.scoreBase = 10
                         let emitter = SKEmitterNode(fileNamed: "MyParticle")
                         emitter?.name = "wind"
                         self.addChild(emitter!)
@@ -190,6 +191,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
                     SKAction.run {
                         self.view!.isUserInteractionEnabled = true
                         self.velocity = 0.5
+                        self.scoreBase = 1
                         self.childNode(withName: "wind")?.removeFromParent()
                 }
                 ]))
