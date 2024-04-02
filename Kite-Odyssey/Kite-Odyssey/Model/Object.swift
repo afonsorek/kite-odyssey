@@ -19,10 +19,9 @@ class Object: SKNode {
         //        set the starting position of the node
         self.position = CGPoint(x: (CGFloat(arc4random_uniform(UInt32(UIScreen.main.bounds.width/2))) * x), y: UIScreen.main.bounds.maxY - 112)
         //    set the size of the node
-        self.setScale(0.2)
         
         //        apply a physixs body to the node
-        self.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: name), size: CGSize(width: image.size.width * 0.2, height: image.size.height * 0.2))
+        self.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: name), size: CGSize(width: image.size.width, height: image.size.height))
 
         self.physicsBody?.contactTestBitMask = (self.physicsBody!.collisionBitMask)
 

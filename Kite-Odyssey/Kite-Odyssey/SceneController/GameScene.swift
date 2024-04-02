@@ -17,6 +17,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     private var finger = [CGPoint]()
     
     private var background: SKSpriteNode?
+    private var background2: SKSpriteNode?
+    
     private var playerScore: SKLabelNode?
     private var bestLabel: SKLabelNode?
 
@@ -34,34 +36,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     private var translation: CGPoint = CGPoint(x: 0, y: 0)
     
     private var velocity = 0.5
+    private var enemyFreq = 4.0
     
     override func sceneDidLoad() {
         //Set Best Score
         checkRecord()
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches{
-            let location = touch.location(in: self)
-            let touchedNode = atPoint(location)
-            
-            if touchedNode.name == "restart" {
-                if let scene = SKScene(fileNamed: "GameScene") {
-                    scene.scaleMode = .aspectFill
-                    
-                    self.view?.presentScene(scene)
-                }
-                 
-                self.view?.ignoresSiblingOrder = true
-                
-                self.view?.showsFPS = true
-                self.view?.showsNodeCount = true
-            }
-        }
-    }
-    
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
+        
+        
+        self.run(SKAction.repeatForever(SKAction.sequence([SKAction.wait(forDuration: 20), SKAction.run {
+            self.spawnPowerUp()
+            if self.enemyFreq > 0.0{
+                self.enemyFreq -= self.enemyFreq-0.5
+            }
+        }])))
+        self.run(SKAction.repeatForever(SKAction.sequence([SKAction.run {
+            self.spawnEnemy()
+        }, SKAction.wait(forDuration: self.enemyFreq)])))
         
         //Apply force and create kite
         kite = Kite(child: self.childNode(withName: "kite")!)
@@ -73,22 +67,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             self.background?.position.y-=self.velocity
         }, SKAction.wait(forDuration: 0.01)])))
         
+        self.background2 = self.childNode(withName: "long-bg-2") as? SKSpriteNode
+        self.background2?.zPosition = -10
+        self.background2?.run(SKAction.repeatForever(SKAction.sequence([SKAction.run {
+            self.background2?.position.y-=self.velocity
+        }, SKAction.wait(forDuration: 0.01)])))
+        
         self.bestLabel = self.childNode(withName: "bestScore") as? SKLabelNode
-        self.bestLabel?.fontName = "Livvic-Regular"
+        self.bestLabel?.fontName = "Montserrat-Regular"
         self.bestLabel?.text = "Best: \(bestScore) m"
         
         self.playerScore = self.childNode(withName: "playerScore") as? SKLabelNode
-        self.playerScore?.fontName = "Livvic-Regular"
+        self.playerScore?.fontName = "Montserrat-Regular"
         self.playerScore?.text = "\(score) m"
         
         self.playerScore?.run(SKAction.repeatForever(SKAction.sequence([SKAction.run {
             self.score += self.scoreBase
             self.playerScore?.text = "\(self.score) m"
         }, SKAction.wait(forDuration: 0.5)])))
-        
-        self.run(SKAction.repeatForever(SKAction.sequence([SKAction.run {
-            self.spawnEnemy()
-        }, SKAction.wait(forDuration: 2)])))
         
         let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
         view.addGestureRecognizer(panRecognizer)
@@ -118,31 +114,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         }
     }
     
-    func spawnEnemy(){
-        var enemyList: [String] = ["enemy-bike"]
-        if self.score > 100{
-            enemyList = ["enemy-bike", "enemy-car"]
-        }
-        let randomName = enemyList.randomElement()!
-        let enemy = Object(image: SKSpriteNode(imageNamed: randomName), name: randomName)
-        if score>10 && score < 15{
+    func spawnPowerUp(){
+        DispatchQueue.main.async{
             let powerUp = PowerUp()
             powerUp.setBody()
             powerUp.node.name = "powerUp"
             self.run(SKAction.sequence([
-                SKAction.run {
-                    self.addChild(enemy)
-                },
                 SKAction.wait(forDuration: 0.5),
                 SKAction.run {
                     self.addChild(powerUp.node)
-                },
-                SKAction.wait(forDuration: 2.0),
-                SKAction.run {
-                    enemy.removeFromParent()
                 }
             ]))
-        }else{
+        }
+    }
+    
+    func spawnEnemy(){
+        DispatchQueue.main.async{
+            let enemyList: [String] = ["enemy-bike", "enemy-antenna", "enemy-shoe", "enemy-ball", "enemy-rock1", "enemy-rock2", "enemy-wing", "enemy-umbrella"]
+            let randomName = enemyList.randomElement()!
+            
+            let enemy = Object(image: SKSpriteNode(imageNamed: randomName), name: randomName)
             self.addChild(enemy)
             enemy.run(SKAction.sequence([SKAction.wait(forDuration: 2.0), SKAction.run {
                 enemy.removeFromParent()
@@ -184,7 +175,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
                         let emitter = SKEmitterNode(fileNamed: "MyParticle")
                         emitter?.name = "wind"
                         self.addChild(emitter!)
-                        
+                        self.childNode(withName: "powerUp")?.removeFromParent()
                         self.velocity = 3.0
                 },
                     SKAction.wait(forDuration: 4),
@@ -198,6 +189,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             }else{
                 playerDeath()
             }
+        }else if contact.bodyA.node?.name == "ABUBLE"{
+            contact.bodyB.node?.removeFromParent()
+        } else if contact.bodyB.node?.name == "ABUBLE"{
+            contact.bodyA.node?.removeFromParent()
         }
     }
     
@@ -207,7 +202,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         path.move(to: self.kite!.child!.position)
         trailNode.path = path
         trailNode.strokeColor = .red
-        trailNode.lineWidth = 4
+        trailNode.lineWidth = 2
         trailNode.zPosition = -1
         addChild(trailNode)
         
@@ -232,6 +227,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         trailNode.run(sequenceAction)
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches{
+            let location = touch.location(in: self)
+            let touchedNode = atPoint(location)
+            
+            if touchedNode.name == "restart" {
+                if let scene = SKScene(fileNamed: "GameScene") {
+                    scene.scaleMode = .aspectFill
+                    
+                    self.view?.presentScene(scene)
+                }
+                 
+                self.view?.ignoresSiblingOrder = true
+                
+                self.view?.showsFPS = true
+                self.view?.showsNodeCount = true
+            }
+        }
+    }
     
     override func update(_ currentTime: TimeInterval) {
         createTrail()

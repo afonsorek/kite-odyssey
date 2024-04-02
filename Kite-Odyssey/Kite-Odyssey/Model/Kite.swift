@@ -14,6 +14,10 @@ class Kite{
         self.child = child
     }
     
+    let negativeShader = SKShader(source: "void main() { " +
+        "    gl_FragColor = vec4(1.0 - SKDefaultShading().rgb, SKDefaultShading().a); " +
+        "}")
+    
     func resetBody(){
         child!.physicsBody = SKPhysicsBody(rectangleOf: child!.frame.size)
         child!.physicsBody?.allowsRotation = true
@@ -24,7 +28,7 @@ class Kite{
     
     func setBody(){
         child!.physicsBody = SKPhysicsBody(rectangleOf: child!.frame.size)
-        child!.physicsBody?.velocity = CGVector(dx: 0, dy: 600)
+        child!.physicsBody?.velocity = CGVector(dx: 0, dy: 200)
         child!.physicsBody?.allowsRotation = true
         child?.physicsBody?.isDynamic = true
         child?.physicsBody?.affectedByGravity = true
@@ -34,19 +38,20 @@ class Kite{
     func applyForce(velocity: CGVector, translation: CGPoint){
         child!.run(SKAction.rotate(toAngle: 0, duration: 0.07))
         child!.physicsBody?.linearDamping = 1.0
-        child!.physicsBody?.applyAngularImpulse(-(translation.x/500))
+        child!.physicsBody?.applyAngularImpulse(-(translation.x/1000))
         child!.physicsBody?.velocity = velocity
     }
     
     func powerUp(screen: CGRect){
         child?.run(SKAction.sequence([
-            SKAction.move(to: CGPoint(x: 0, y: 0), duration: 0.7),
             SKAction.run {
+                self.child!.scene?.shader = self.negativeShader
                 self.child!.physicsBody?.isDynamic = false
                 self.child!.name = "ABUBLE"
                 self.child!.zPosition = 100
                 self.child!.zRotation = 0
             },
+            SKAction.move(to: CGPoint(x: 0, y: 0), duration: 0.7),
         ]))
         
         child?.run(SKAction.sequence([SKAction.repeat(SKAction.sequence([
@@ -56,6 +61,7 @@ class Kite{
         ]), count: 6), SKAction.run {
             self.child!.name = "kite"
             self.resetBody()
+            self.child!.scene?.shader = self.negativeShader
         }]))
         
     }

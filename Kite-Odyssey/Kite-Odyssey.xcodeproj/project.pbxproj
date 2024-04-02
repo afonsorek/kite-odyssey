@@ -17,13 +17,17 @@
 		A97D49812BACA51E000AD0A3 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A97D49802BACA51E000AD0A3 /* MenuScene.sks */; };
 		A97D49832BACA633000AD0A3 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97D49822BACA633000AD0A3 /* MenuScene.swift */; };
 		A97D49852BACB6FB000AD0A3 /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97D49842BACB6FB000AD0A3 /* Object.swift */; };
-		A9A4BC072BB1FF2500675F25 /* Livvic-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC042BB1FF2500675F25 /* Livvic-Black.ttf */; };
-		A9A4BC082BB1FF2500675F25 /* Livvic-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC052BB1FF2500675F25 /* Livvic-Light.ttf */; };
-		A9A4BC092BB1FF2500675F25 /* Livvic-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC062BB1FF2500675F25 /* Livvic-Regular.ttf */; };
 		A9A4BC112BB202A100675F25 /* Kite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A4BC102BB202A100675F25 /* Kite.swift */; };
 		A9A4BC132BB2455B00675F25 /* DeathScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A4BC122BB2455B00675F25 /* DeathScene.swift */; };
 		A9A4BC152BB3383700675F25 /* PowerUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A4BC142BB3383700675F25 /* PowerUp.swift */; };
 		A9A4BC172BB35D0200675F25 /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC162BB35D0200675F25 /* MyParticle.sks */; };
+		A9A4BC232BBC471F00675F25 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC222BBC471F00675F25 /* Montserrat-Regular.ttf */; };
+		A9A4BC252BBC75D700675F25 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC242BBC75D700675F25 /* GoogleService-Info.plist */; };
+		A9A4BC282BBC766100675F25 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = A9A4BC272BBC766100675F25 /* FirebaseAnalytics */; };
+		A9A4BC2A2BBC766100675F25 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = A9A4BC292BBC766100675F25 /* FirebaseAnalyticsOnDeviceConversion */; };
+		A9A4BC2C2BBC766100675F25 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A9A4BC2B2BBC766100675F25 /* FirebaseAnalyticsSwift */; };
+		A9A4BC2E2BBC766100675F25 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = A9A4BC2D2BBC766100675F25 /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		A9A4BC302BBC766100675F25 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = A9A4BC2F2BBC766100675F25 /* FirebaseAppCheck */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,13 +43,12 @@
 		A97D49822BACA633000AD0A3 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		A97D49842BACB6FB000AD0A3 /* Object.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Object.swift; sourceTree = "<group>"; };
 		A97D498C2BAD05DA000AD0A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A9A4BC042BB1FF2500675F25 /* Livvic-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Livvic-Black.ttf"; sourceTree = "<group>"; };
-		A9A4BC052BB1FF2500675F25 /* Livvic-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Livvic-Light.ttf"; sourceTree = "<group>"; };
-		A9A4BC062BB1FF2500675F25 /* Livvic-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Livvic-Regular.ttf"; sourceTree = "<group>"; };
 		A9A4BC102BB202A100675F25 /* Kite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kite.swift; sourceTree = "<group>"; };
 		A9A4BC122BB2455B00675F25 /* DeathScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeathScene.swift; sourceTree = "<group>"; };
 		A9A4BC142BB3383700675F25 /* PowerUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUp.swift; sourceTree = "<group>"; };
 		A9A4BC162BB35D0200675F25 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
+		A9A4BC222BBC471F00675F25 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		A9A4BC242BBC75D700675F25 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +56,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9A4BC2C2BBC766100675F25 /* FirebaseAnalyticsSwift in Frameworks */,
+				A9A4BC282BBC766100675F25 /* FirebaseAnalytics in Frameworks */,
+				A9A4BC2A2BBC766100675F25 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
+				A9A4BC302BBC766100675F25 /* FirebaseAppCheck in Frameworks */,
+				A9A4BC2E2BBC766100675F25 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				A97D498C2BAD05DA000AD0A3 /* Info.plist */,
+				A9A4BC242BBC75D700675F25 /* GoogleService-Info.plist */,
 				A9A4BC0F2BB2000700675F25 /* App */,
 				A9A4BC0C2BB1FF9700675F25 /* SceneController */,
 				A9A4BC0D2BB1FFBB00675F25 /* Scenes */,
@@ -120,9 +129,7 @@
 		A9A4BC0E2BB1FFED00675F25 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A9A4BC042BB1FF2500675F25 /* Livvic-Black.ttf */,
-				A9A4BC052BB1FF2500675F25 /* Livvic-Light.ttf */,
-				A9A4BC062BB1FF2500675F25 /* Livvic-Regular.ttf */,
+				A9A4BC222BBC471F00675F25 /* Montserrat-Regular.ttf */,
 				A93D54582BAB01170094ACA7 /* Assets.xcassets */,
 				A9A4BC162BB35D0200675F25 /* MyParticle.sks */,
 			);
@@ -156,6 +163,13 @@
 			dependencies = (
 			);
 			name = "Kite-Odyssey";
+			packageProductDependencies = (
+				A9A4BC272BBC766100675F25 /* FirebaseAnalytics */,
+				A9A4BC292BBC766100675F25 /* FirebaseAnalyticsOnDeviceConversion */,
+				A9A4BC2B2BBC766100675F25 /* FirebaseAnalyticsSwift */,
+				A9A4BC2D2BBC766100675F25 /* FirebaseAnalyticsWithoutAdIdSupport */,
+				A9A4BC2F2BBC766100675F25 /* FirebaseAppCheck */,
+			);
 			productName = "Kite-Odyssey";
 			productReference = A93D54482BAB01160094ACA7 /* Kite-Odyssey.app */;
 			productType = "com.apple.product-type.application";
@@ -184,6 +198,9 @@
 				Base,
 			);
 			mainGroup = A93D543F2BAB01160094ACA7;
+			packageReferences = (
+				A9A4BC262BBC766100675F25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = A93D54492BAB01160094ACA7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -198,15 +215,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9A4BC082BB1FF2500675F25 /* Livvic-Light.ttf in Resources */,
 				A93D544E2BAB01160094ACA7 /* GameScene.sks in Resources */,
-				A9A4BC092BB1FF2500675F25 /* Livvic-Regular.ttf in Resources */,
 				A93D54572BAB01160094ACA7 /* Base in Resources */,
+				A9A4BC232BBC471F00675F25 /* Montserrat-Regular.ttf in Resources */,
 				A9A4BC172BB35D0200675F25 /* MyParticle.sks in Resources */,
-				A9A4BC072BB1FF2500675F25 /* Livvic-Black.ttf in Resources */,
 				A93D54592BAB01170094ACA7 /* Assets.xcassets in Resources */,
 				A97D49812BACA51E000AD0A3 /* MenuScene.sks in Resources */,
 				A93D545C2BAB01170094ACA7 /* Base in Resources */,
+				A9A4BC252BBC75D700675F25 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,7 +396,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Kite-Odyssey/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Kite Odyssey";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.arcade-games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -416,7 +432,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Kite-Odyssey/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Kite Odyssey";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.arcade-games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -463,6 +479,45 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A9A4BC262BBC766100675F25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.23.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A9A4BC272BBC766100675F25 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9A4BC262BBC766100675F25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		A9A4BC292BBC766100675F25 /* FirebaseAnalyticsOnDeviceConversion */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9A4BC262BBC766100675F25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsOnDeviceConversion;
+		};
+		A9A4BC2B2BBC766100675F25 /* FirebaseAnalyticsSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9A4BC262BBC766100675F25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsSwift;
+		};
+		A9A4BC2D2BBC766100675F25 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9A4BC262BBC766100675F25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		A9A4BC2F2BBC766100675F25 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9A4BC262BBC766100675F25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A93D54402BAB01160094ACA7 /* Project object */;
 }
