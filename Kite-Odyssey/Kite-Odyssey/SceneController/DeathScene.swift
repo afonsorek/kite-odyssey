@@ -15,7 +15,6 @@ class DeathScene: SKNode{
 
         let filter = SKSpriteNode(color: UIColor(ciColor: CIColor(red: 0, green: 0, blue: 0, alpha: 0.2)), size: father.size)
         filter.zPosition = 20
-        self.addChild(filter)
         
         let banner = SKSpriteNode(imageNamed: "banner")
         banner.name = "banner"
@@ -55,11 +54,13 @@ class DeathScene: SKNode{
         home.position = CGPoint(x: 120, y: -300)
         
         banner.position.y = (father.size.height/2)-300
-        father.addChild(banner)
+        
+        self.addChild(filter)
+        self.addChild(banner)
         banner.addChild(score)
         banner.addChild(text)
-        father.addChild(restart)
-        father.addChild(home)
+        self.addChild(restart)
+        self.addChild(home)
         banner.addChild(continueButton)
     }
     

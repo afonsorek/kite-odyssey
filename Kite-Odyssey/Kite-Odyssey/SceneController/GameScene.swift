@@ -17,6 +17,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     var gameCenterLeaderboardID = "highestKite"
     
+    private var dead = false
+    
     private var count = 0
     private var bestScore = 0
     private let thresholdAngle: CGFloat = 45.0
@@ -91,7 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         }])))
         
         //Apply force and create kite
-        kite = Kite(child: self.childNode(withName: "kite")!)
+        kite = Kite(child: self.childNode(withName: "kite")! as! SKSpriteNode)
         kite?.setBody()
         
         self.background = self.childNode(withName: "long-bg") as? SKSpriteNode
@@ -201,9 +203,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         }
         
         let record = UserDefaults.standard.object(forKey: "bestScore") as? Int
+        
         if score > record ?? 0 {
+            UserDefaults.standard.set(score, forKey: "bestScore")
+            
             if GKLocalPlayer.local.isAuthenticated{
-                GKLeaderboard.submitScore(score, context: 0, player: GKLocalPlayer.local, leaderboardIDs: [gameCenterLeaderboardID]) { error in
+                GKLeaderboard.submitScore(record ?? 0, context: 0, player: GKLocalPlayer.local, leaderboardIDs: [gameCenterLeaderboardID]) { error in
                     if error != nil{
                         print(error!.localizedDescription)
                     } else{
@@ -211,23 +216,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                     }
                 }
             }
-            UserDefaults.standard.set(score, forKey: "bestScore")
         }
         
         
     }
     
-    func playerDeath(){
+    func playerDeath() {
         checkRecord()
         
-        self.kite?.child!.removeFromParent()
-        self.playerScore?.removeFromParent()
-        self.bestLabel?.removeFromParent()
+        self.run(SKAction.sequence([
+            SKAction.run {
+                let red = SKSpriteNode(color: .red, size: self.size)
+                red.alpha = 0.0
+                self.addChild(red)
+                red.run(SKAction.sequence([
+                    SKAction.fadeAlpha(to: 0.2, duration: 0.2),
+                    SKAction.wait(forDuration: 0.3),
+                    SKAction.fadeAlpha(to: 0, duration: 0.2)
+                ]))
+            },
+
+        ]))
         
-        self.scene?.view?.isPaused = true
+        self.view!.isUserInteractionEnabled = false // Disable user interaction
         
-        addChild(DeathScene(father: self, score: score))
+        self.run(SKAction.sequence([
+            SKAction.run {
+                self.kite?.die()
+            },
+            SKAction.wait(forDuration: 2),
+            SKAction.run {
+                self.kite?.child!.removeFromParent()
+                self.playerScore?.removeFromParent()
+                self.bestLabel?.removeFromParent()
+            },
+            SKAction.wait(forDuration: 0.2),
+            SKAction.run {
+                let deathChild = DeathScene(father: self, score: self.score)
+                self.addChild(deathChild)
+            },
+            SKAction.run {
+                self.view?.isPaused = true
+                self.view!.isUserInteractionEnabled = true // Enable user interaction after scene transition
+            }
+        ]))
     }
+
     
     func didBegin(_ contact: SKPhysicsContact) {
         if contact.bodyA.node?.name == "kite" ||  contact.bodyB.node?.name == "kite"{
@@ -252,6 +286,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 }
                 ]))
             }else{
+                dead = true
                 playerDeath()
             }
         }else if contact.bodyA.node?.name == "ABUBLE"{
@@ -298,6 +333,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             let touchedNode = atPoint(location)
             
             if touchedNode.name == "restart" {
+                touchedNode.run(SKAction.sequence([
+                  SKAction.scale(to: 1.1, duration: 0.2),
+                  SKAction.wait(forDuration: 0.2),
+                  SKAction.scale(to: 1.0, duration: 0.2)
+                ]))
+                
                 self.removeAllActions()
                 self.removeAllChildren()
                 if let scene = SKScene(fileNamed: "GameScene") {
@@ -309,6 +350,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             }
             
             if touchedNode.name == "home" {
+                touchedNode.run(SKAction.sequence([
+                  SKAction.scale(to: 1.1, duration: 0.2),
+                  SKAction.wait(forDuration: 0.2),
+                  SKAction.scale(to: 1.0, duration: 0.2),
+                ]))
+                
                 self.removeAllActions()
                 self.removeAllChildren()
                 
@@ -325,8 +372,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     override func update(_ currentTime: TimeInterval) {
         createTrail()
-        if !intersects(kite!.child!){
+        if !intersects(kite!.child!) && dead == false{
             playerDeath()
+            dead = true
         }
     }
 }
