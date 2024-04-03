@@ -9,14 +9,16 @@ import Foundation
 import SpriteKit
 
 class Kite{
-    var child: SKNode?
-    init(child: SKNode){
+    var child: SKSpriteNode?
+    init(child: SKSpriteNode){
         self.child = child
+        self.loadTexture()
     }
     
-    let negativeShader = SKShader(source: "void main() { " +
-        "    gl_FragColor = vec4(1.0 - SKDefaultShading().rgb, SKDefaultShading().a); " +
-        "}")
+    func loadTexture(){
+        let skin = UserDefaults.standard.object(forKey: "kiteSkin")
+        child!.texture = SKTexture(imageNamed: skin as! String)
+    }
     
     func resetBody(){
         child!.physicsBody = SKPhysicsBody(rectangleOf: child!.frame.size)
@@ -24,6 +26,10 @@ class Kite{
         child?.physicsBody?.isDynamic = true
         child?.physicsBody?.affectedByGravity = true
         child!.physicsBody?.contactTestBitMask = (child!.physicsBody!.collisionBitMask)
+    }
+    
+    func die(){
+        child!.run(SKAction.scale(to: 0, duration: 2))
     }
     
     func setBody(){
@@ -45,7 +51,6 @@ class Kite{
     func powerUp(screen: CGRect){
         child?.run(SKAction.sequence([
             SKAction.run {
-                self.child!.scene?.shader = self.negativeShader
                 self.child!.physicsBody?.isDynamic = false
                 self.child!.name = "ABUBLE"
                 self.child!.zPosition = 100
@@ -61,7 +66,6 @@ class Kite{
         ]), count: 6), SKAction.run {
             self.child!.name = "kite"
             self.resetBody()
-            self.child!.scene?.shader = self.negativeShader
         }]))
         
     }

@@ -30,6 +30,7 @@
 		A9A4BC302BBC766100675F25 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = A9A4BC2F2BBC766100675F25 /* FirebaseAppCheck */; };
 		A9A4BC332BBCF39700675F25 /* GameKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A4BC322BBCF39700675F25 /* GameKitHelper.swift */; };
 		A9A4BC352BBD0D1600675F25 /* BricolageGrotesque-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC342BBD0D1600675F25 /* BricolageGrotesque-Medium.ttf */; };
+		A9A4BC372BBD1A1C00675F25 /* explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC362BBD1A1C00675F25 /* explosion.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		A9A4BC312BBCCCD200675F25 /* Kite-Odyssey.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Kite-Odyssey.entitlements"; sourceTree = "<group>"; };
 		A9A4BC322BBCF39700675F25 /* GameKitHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameKitHelper.swift; sourceTree = "<group>"; };
 		A9A4BC342BBD0D1600675F25 /* BricolageGrotesque-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BricolageGrotesque-Medium.ttf"; sourceTree = "<group>"; };
+		A9A4BC362BBD1A1C00675F25 /* explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = explosion.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +141,7 @@
 				A9A4BC342BBD0D1600675F25 /* BricolageGrotesque-Medium.ttf */,
 				A93D54582BAB01170094ACA7 /* Assets.xcassets */,
 				A9A4BC162BB35D0200675F25 /* MyParticle.sks */,
+				A9A4BC362BBD1A1C00675F25 /* explosion.sks */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -226,6 +229,7 @@
 				A93D544E2BAB01160094ACA7 /* GameScene.sks in Resources */,
 				A93D54572BAB01160094ACA7 /* Base in Resources */,
 				A9A4BC232BBC471F00675F25 /* Montserrat-Regular.ttf in Resources */,
+				A9A4BC372BBD1A1C00675F25 /* explosion.sks in Resources */,
 				A9A4BC172BB35D0200675F25 /* MyParticle.sks in Resources */,
 				A93D54592BAB01170094ACA7 /* Assets.xcassets in Resources */,
 				A9A4BC352BBD0D1600675F25 /* BricolageGrotesque-Medium.ttf in Resources */,

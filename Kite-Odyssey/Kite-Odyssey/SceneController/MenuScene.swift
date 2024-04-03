@@ -24,6 +24,10 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
     private var cooldown = 0.7
     
     override func didMove(to view: SKView) {
+        UserDefaults.standard.set("kite-standart", forKey: "kiteSkin")
+        
+        let kite = Kite(child: self.childNode(withName: "kite-menu")! as! SKSpriteNode)
+        
         let swipeUp : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MenuScene.swipeUp))
         swipeUp.direction = .up
         self.view!.addGestureRecognizer(swipeUp)
@@ -97,6 +101,11 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
               let touchedNode = atPoint(location)
               
               if touchedNode.name == "button" {
+                  self.button?.run(SKAction.sequence([
+                    SKAction.scale(to: 1.1, duration: 0.2),
+                    SKAction.wait(forDuration: 0.2),
+                    SKAction.scale(to: 1.0, duration: 0.2)
+                  ]))
                   let viewController = self.view?.window?.rootViewController
                   gameKitHelper.showLeader(view: viewController!)
               }
