@@ -6,9 +6,8 @@
 	<string>I am using User Defaults for saving the best score of the user on the run.</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Livvic-Black.ttf</string>
-		<string>Livvic-Light.ttf</string>
-		<string>Livvic-Regular.ttf</string>
+		<string>Montserrat-Regular.ttf</string>
+		<string>BricolageGrotesque-Medium.ttf</string>
 	</array>
 </dict>
 </plist>
