@@ -26,7 +26,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
     override func didMove(to view: SKView) {
         UserDefaults.standard.set("kite-standart", forKey: "kiteSkin")
         
-        let kite = Kite(child: self.childNode(withName: "kite-menu")! as! SKSpriteNode)
+        _ = Kite(child: self.childNode(withName: "kite-menu")! as! SKSpriteNode)
         
         let swipeUp : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MenuScene.swipeUp))
         swipeUp.direction = .up
