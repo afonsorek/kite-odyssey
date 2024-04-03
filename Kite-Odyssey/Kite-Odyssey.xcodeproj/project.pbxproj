@@ -28,6 +28,8 @@
 		A9A4BC2C2BBC766100675F25 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A9A4BC2B2BBC766100675F25 /* FirebaseAnalyticsSwift */; };
 		A9A4BC2E2BBC766100675F25 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = A9A4BC2D2BBC766100675F25 /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		A9A4BC302BBC766100675F25 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = A9A4BC2F2BBC766100675F25 /* FirebaseAppCheck */; };
+		A9A4BC332BBCF39700675F25 /* GameKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A4BC322BBCF39700675F25 /* GameKitHelper.swift */; };
+		A9A4BC352BBD0D1600675F25 /* BricolageGrotesque-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC342BBD0D1600675F25 /* BricolageGrotesque-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +51,9 @@
 		A9A4BC162BB35D0200675F25 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
 		A9A4BC222BBC471F00675F25 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		A9A4BC242BBC75D700675F25 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A9A4BC312BBCCCD200675F25 /* Kite-Odyssey.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Kite-Odyssey.entitlements"; sourceTree = "<group>"; };
+		A9A4BC322BBCF39700675F25 /* GameKitHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameKitHelper.swift; sourceTree = "<group>"; };
+		A9A4BC342BBD0D1600675F25 /* BricolageGrotesque-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BricolageGrotesque-Medium.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +91,7 @@
 		A93D544A2BAB01160094ACA7 /* Kite-Odyssey */ = {
 			isa = PBXGroup;
 			children = (
+				A9A4BC312BBCCCD200675F25 /* Kite-Odyssey.entitlements */,
 				A97D498C2BAD05DA000AD0A3 /* Info.plist */,
 				A9A4BC242BBC75D700675F25 /* GoogleService-Info.plist */,
 				A9A4BC0F2BB2000700675F25 /* App */,
@@ -130,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				A9A4BC222BBC471F00675F25 /* Montserrat-Regular.ttf */,
+				A9A4BC342BBD0D1600675F25 /* BricolageGrotesque-Medium.ttf */,
 				A93D54582BAB01170094ACA7 /* Assets.xcassets */,
 				A9A4BC162BB35D0200675F25 /* MyParticle.sks */,
 			);
@@ -143,6 +150,7 @@
 				A93D545A2BAB01170094ACA7 /* LaunchScreen.storyboard */,
 				A93D54532BAB01160094ACA7 /* GameViewController.swift */,
 				A93D544B2BAB01160094ACA7 /* AppDelegate.swift */,
+				A9A4BC322BBCF39700675F25 /* GameKitHelper.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -220,6 +228,7 @@
 				A9A4BC232BBC471F00675F25 /* Montserrat-Regular.ttf in Resources */,
 				A9A4BC172BB35D0200675F25 /* MyParticle.sks in Resources */,
 				A93D54592BAB01170094ACA7 /* Assets.xcassets in Resources */,
+				A9A4BC352BBD0D1600675F25 /* BricolageGrotesque-Medium.ttf in Resources */,
 				A97D49812BACA51E000AD0A3 /* MenuScene.sks in Resources */,
 				A93D545C2BAB01170094ACA7 /* Base in Resources */,
 				A9A4BC252BBC75D700675F25 /* GoogleService-Info.plist in Resources */,
@@ -237,6 +246,7 @@
 				A93D54522BAB01160094ACA7 /* GameScene.swift in Sources */,
 				A9A4BC152BB3383700675F25 /* PowerUp.swift in Sources */,
 				A9A4BC112BB202A100675F25 /* Kite.swift in Sources */,
+				A9A4BC332BBCF39700675F25 /* GameKitHelper.swift in Sources */,
 				A97D49832BACA633000AD0A3 /* MenuScene.swift in Sources */,
 				A93D54542BAB01160094ACA7 /* GameViewController.swift in Sources */,
 				A93D544C2BAB01160094ACA7 /* AppDelegate.swift in Sources */,
@@ -390,6 +400,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Kite-Odyssey/Kite-Odyssey.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = K6W38SA3SY;
@@ -427,6 +438,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Kite-Odyssey/Kite-Odyssey.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = K6W38SA3SY;

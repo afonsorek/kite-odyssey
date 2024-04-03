@@ -7,6 +7,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Regular.ttf</string>
+		<string>BricolageGrotesque-Medium.ttf</string>
 	</array>
 </dict>
 </plist>

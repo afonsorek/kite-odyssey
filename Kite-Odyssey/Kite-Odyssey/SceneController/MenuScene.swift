@@ -8,12 +8,14 @@
 
 import SpriteKit
 import GameplayKit
-import SwiftUI
+import GameKit
 
 class MenuScene: SKScene, SKPhysicsContactDelegate{
+    var gameKitHelper = GameKitHelper()
+    
     private var button: SKSpriteNode?
     private var bestScore: SKLabelNode?
-    private var transition:SKTransition = SKTransition.fade(withDuration: 0.5)
+    
     
     private let positions:[CGFloat] = [-400, -330, -260]
     private let opacity = [0.25, 0.55, 1.0]
@@ -22,6 +24,10 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
     private var cooldown = 0.7
     
     override func didMove(to view: SKView) {
+        let swipeUp : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MenuScene.swipeUp))
+        swipeUp.direction = .up
+        self.view!.addGestureRecognizer(swipeUp)
+        
         self.button = self.childNode(withName: "button") as? SKSpriteNode
         self.bestScore = self.childNode(withName: "bestScore") as? SKLabelNode
         self.bestScore?.fontName = "Montserrat-Regular"
@@ -54,11 +60,9 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
         }
         self.button?.name = "button"
         
-        let swipeUp : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MenuScene.swipeUp))
-        swipeUp.direction = .up
-        view.addGestureRecognizer(swipeUp)
+
     }
-    
+
     func remove(){
         for i in self.children{
             if i.name == "swipeLabel"{
@@ -76,16 +80,15 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
     }
     
     @objc func swipeUp(sender: UISwipeGestureRecognizer){
+        print("oi")
         if let scene = SKScene(fileNamed: "GameScene") {
+            self.removeAllActions()
+            self.removeAllChildren()
             scene.scaleMode = .aspectFill
-            
-            self.view?.presentScene(scene, transition: .crossFade(withDuration: 0.3))
+            self.view?.presentScene(scene)
         }
         
         self.view?.ignoresSiblingOrder = true
-        
-        self.view?.showsFPS = true
-        self.view?.showsNodeCount = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -94,7 +97,8 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
               let touchedNode = atPoint(location)
               
               if touchedNode.name == "button" {
-                  
+                  let viewController = self.view?.window?.rootViewController
+                  gameKitHelper.showLeader(view: viewController!)
               }
          }
     }

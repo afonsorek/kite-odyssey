@@ -7,8 +7,16 @@
 
 import SpriteKit
 import GameplayKit
+import GameKit
+import SwiftUI
 
-class GameScene: SKScene, SKPhysicsContactDelegate{
+class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate{
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
+    }
+    
+    var gameCenterLeaderboardID = "highestKite"
+    
     private var count = 0
     private var bestScore = 0
     private let thresholdAngle: CGFloat = 45.0
@@ -36,6 +44,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     private var translation: CGPoint = CGPoint(x: 0, y: 0)
     
     private var velocity = 0.5
+    
+    private var levelCount = 0.0
     private var enemyFreq = 4.0
     
     override func sceneDidLoad() {
@@ -43,19 +53,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         checkRecord()
     }
     
+    
     override func didMove(to view: SKView) {
+        
         physicsWorld.contactDelegate = self
-        
-        
-        self.run(SKAction.repeatForever(SKAction.sequence([SKAction.wait(forDuration: 20), SKAction.run {
-            self.spawnPowerUp()
-            if self.enemyFreq > 0.0{
-                self.enemyFreq -= self.enemyFreq-0.5
+        GKAccessPoint.shared.isActive = false
+                
+        self.run(SKAction.repeatForever(SKAction.sequence([
+            SKAction.wait(forDuration: 0.5),
+            SKAction.run {
+                if self.levelCount.truncatingRemainder(dividingBy: self.enemyFreq) == 0{
+                    self.spawnEnemy()
+                }
+                
+                if self.levelCount < 30 {
+                    //
+                }else if self.levelCount < 60 {
+                    self.enemyFreq = 3.0
+                }else if self.levelCount < 120 {
+                    self.enemyFreq = 2.0
+                }else if self.levelCount < 200 {
+                    self.enemyFreq = 1.5
+                }else if self.levelCount < 300 {
+                    self.enemyFreq = 1.0
+                }else{
+                    self.enemyFreq = 0.5
+                }
+                
+                print(self.enemyFreq)
+                print(self.levelCount)
+                self.levelCount += 0.5
             }
+        ])))
+        
+        self.run(SKAction.repeatForever(SKAction.sequence([SKAction.wait(forDuration: 23), SKAction.run {
+            self.spawnPowerUp()
         }])))
-        self.run(SKAction.repeatForever(SKAction.sequence([SKAction.run {
-            self.spawnEnemy()
-        }, SKAction.wait(forDuration: self.enemyFreq)])))
         
         //Apply force and create kite
         kite = Kite(child: self.childNode(withName: "kite")!)
@@ -130,12 +163,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     func spawnEnemy(){
         DispatchQueue.main.async{
-            let enemyList: [String] = ["enemy-bike", "enemy-antenna", "enemy-shoe", "enemy-ball", "enemy-rock1", "enemy-rock2", "enemy-wing", "enemy-umbrella"]
-            let randomName = enemyList.randomElement()!
+            let enemyList1: [String] = ["enemy-shoe", "enemy-ball", "enemy-rock1", "enemy-rock2"]
+            let enemyList2: [String] = ["enemy-bike", "enemy-shoe", "enemy-ball", "enemy-rock2"]
+            let enemyList3: [String] = ["enemy-bike", "enemy-shoe", "enemy-ball", "enemy-rock1", "enemy-antenna"]
+            let enemyList4: [String] = ["enemy-bike", "enemy-shoe", "enemy-ball", "enemy-rock1", "enemy-antenna", "enemy-umbrella"]
+            let enemyListFinal: [String] = ["enemy-bike", "enemy-antenna", "enemy-shoe", "enemy-ball", "enemy-rock2", "enemy-wing", "enemy-umbrella"]
+            
+            let everyList = [enemyList1, enemyList2, enemyList3, enemyList4, enemyListFinal]
+            
+            var levelList = 0
+            
+            if self.score < 40 {
+                levelList = 0
+            }else if self.score < 150{
+                levelList = 1
+            }else if self.score < 300{
+                levelList = 2
+            }else if self.score < 450{
+                levelList = 3
+            }else{
+                levelList = 4
+            }
+            
+            let randomName = everyList[levelList].randomElement()!
             
             let enemy = Object(image: SKSpriteNode(imageNamed: randomName), name: randomName)
             self.addChild(enemy)
-            enemy.run(SKAction.sequence([SKAction.wait(forDuration: 2.0), SKAction.run {
+            enemy.run(SKAction.sequence([SKAction.wait(forDuration: 3.0), SKAction.run {
                 enemy.removeFromParent()
             }]))
         }
@@ -148,8 +202,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
         let record = UserDefaults.standard.object(forKey: "bestScore") as? Int
         if score > record ?? 0 {
+            if GKLocalPlayer.local.isAuthenticated{
+                GKLeaderboard.submitScore(score, context: 0, player: GKLocalPlayer.local, leaderboardIDs: [gameCenterLeaderboardID]) { error in
+                    if error != nil{
+                        print(error!.localizedDescription)
+                    } else{
+                        print("Score Submitted")
+                    }
+                }
+            }
             UserDefaults.standard.set(score, forKey: "bestScore")
         }
+        
+        
     }
     
     func playerDeath(){
@@ -233,16 +298,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             let touchedNode = atPoint(location)
             
             if touchedNode.name == "restart" {
+                self.removeAllActions()
+                self.removeAllChildren()
                 if let scene = SKScene(fileNamed: "GameScene") {
+                    scene.scaleMode = .aspectFill
+                    self.view?.presentScene(scene)
+                }
+                 
+                self.view?.ignoresSiblingOrder = true
+            }
+            
+            if touchedNode.name == "home" {
+                self.removeAllActions()
+                self.removeAllChildren()
+                
+                if let scene = SKScene(fileNamed: "MenuScene") {
                     scene.scaleMode = .aspectFill
                     
                     self.view?.presentScene(scene)
                 }
                  
                 self.view?.ignoresSiblingOrder = true
-                
-                self.view?.showsFPS = true
-                self.view?.showsNodeCount = true
             }
         }
     }
