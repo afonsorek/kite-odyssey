@@ -9,15 +9,25 @@ import SpriteKit
 import GameplayKit
 import GameKit
 import SwiftUI
+import GoogleMobileAds
 
-class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelegate{
+class GameScene: SKScene, GADFullScreenContentDelegate, SKPhysicsContactDelegate, GKGameCenterControllerDelegate{
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismiss(animated: true, completion: nil)
     }
     
+#if DEBUG
+let rewardAdId = "ca-app-pub-3940256099942544/5224354917"
+#else
+let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
+#endif
+    
     var gameCenterLeaderboardID = "highestKite"
     
+    let soundController = SoundManager()
+    
     private var dead = false
+    private var cancel = false
     
     private var count = 0
     private var bestScore = 0
@@ -50,13 +60,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     private var levelCount = 0.0
     private var enemyFreq = 4.0
     
+    private var isSecondChance = false
+    
+    private var deathScene: DeathScene?
+    
     override func sceneDidLoad() {
-        //Set Best Score
         checkRecord()
     }
     
     
     override func didMove(to view: SKView) {
+        soundController.playLoop(sound: .theme)
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            self.size = UIScreen.main.bounds.size
+        }
+        RewardedAd.shared.loadAd(withAdUnitId: rewardAdId)
         
         physicsWorld.contactDelegate = self
         GKAccessPoint.shared.isActive = false
@@ -82,8 +100,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                     self.enemyFreq = 0.5
                 }
                 
-                print(self.enemyFreq)
-                print(self.levelCount)
                 self.levelCount += 0.5
             }
         ])))
@@ -221,9 +237,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
         
     }
     
-    func playerDeath() {
-        checkRecord()
-        
+    func showRewarded(){
+        if let ad = RewardedAd.shared.rewardedAd{
+            ad.fullScreenContentDelegate = self
+            ad.present(fromRootViewController: nil) {
+                print("voce foi premiado")
+            }
+        }
+    }
+    
+    func adDidDismissFullScreenContent(_ ad: any GADFullScreenPresentingAd) {
+        self.deathScene!.child.isHidden = true
+        if let bro = self.childNode(withName: "deathScene"){
+            bro.removeFromParent()
+        }
+        self.isSecondChance = true
+        self.view?.isPaused = false
+        self.kite?.setBody()
+    }
+    
+    func redscreen(){
         self.run(SKAction.sequence([
             SKAction.run {
                 let red = SKSpriteNode(color: .red, size: self.size)
@@ -237,6 +270,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             },
 
         ]))
+    }
+    
+    func playerStuned() {
+        self.run(SKAction.repeat(SKAction.sequence([
+            SKAction.run {
+                self.soundController.fadeOut(sound: .theme)
+            },
+            SKAction.wait(forDuration: 0.2)
+        ]), count: 10))
+        self.redscreen()
+        self.view!.isUserInteractionEnabled = false // Disable user interaction
+        self.run(SKAction.sequence([
+            SKAction.wait(forDuration: 1),
+            SKAction.run {
+                if self.childNode(withName: "deathScene") == nil{
+                    self.deathScene = DeathScene(father: self, score: self.score, isSecondChance: self.isSecondChance)
+                    self.deathScene!.child.name = "deathScene"
+                    self.deathScene!.child.isHidden = true
+                    self.addChild(self.deathScene!.child)
+                    
+                    self.deathScene!.child.isHidden = false
+                }
+            },
+            SKAction.run {
+                self.kite?.child?.position = CGPoint(x: 0, y: 0)
+                self.view?.isPaused = true
+                self.view!.isUserInteractionEnabled = true // Enable user interaction after scene transition
+            }
+        ]))
+        cancel = true
+    }
+    
+    func playerDeath() {
+        checkRecord()
+        soundController.fadeOut(sound: .theme)
+        
+        self.redscreen()
         
         self.view!.isUserInteractionEnabled = false // Disable user interaction
         
@@ -252,12 +322,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
             },
             SKAction.wait(forDuration: 0.2),
             SKAction.run {
-                let deathChild = DeathScene(father: self, score: self.score)
-                self.addChild(deathChild)
+                if self.childNode(withName: "deathScene") == nil{
+                    self.deathScene = DeathScene(father: self, score: self.score,isSecondChance: self.isSecondChance)
+                    self.deathScene!.child.name = "deathScene"
+                    self.deathScene!.child.isHidden = true
+                    self.addChild(self.deathScene!.child)
+                }
+                self.deathScene!.child.isHidden = false
             },
             SKAction.run {
                 self.view?.isPaused = true
-                self.view!.isUserInteractionEnabled = true // Enable user interaction after scene transition
+                self.view!.isUserInteractionEnabled = true
             }
         ]))
     }
@@ -286,8 +361,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 }
                 ]))
             }else{
-                dead = true
-                playerDeath()
+                if isSecondChance == false{
+                    playerStuned()
+                }else{
+                    dead = true
+                    playerDeath()
+                }
             }
         }else if contact.bodyA.node?.name == "ABUBLE"{
             contact.bodyB.node?.removeFromParent()
@@ -349,6 +428,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
                 self.view?.ignoresSiblingOrder = true
             }
             
+            if touchedNode.name == "continue"{
+                showRewarded()
+            }
+            
             if touchedNode.name == "home" {
                 touchedNode.run(SKAction.sequence([
                   SKAction.scale(to: 1.1, duration: 0.2),
@@ -372,9 +455,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GKGameCenterControllerDelega
     
     override func update(_ currentTime: TimeInterval) {
         createTrail()
-        if !intersects(kite!.child!) && dead == false{
-            playerDeath()
+        
+        if !intersects(kite!.child!) && !dead {
+            playerStuned()
             dead = true
+            cancel = true
+        }else if !intersects(kite!.child!) && dead && !cancel{
+            playerDeath()
+            cancel = true
         }
     }
 }

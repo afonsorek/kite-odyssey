@@ -31,6 +31,11 @@
 		A9A4BC332BBCF39700675F25 /* GameKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A4BC322BBCF39700675F25 /* GameKitHelper.swift */; };
 		A9A4BC352BBD0D1600675F25 /* BricolageGrotesque-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC342BBD0D1600675F25 /* BricolageGrotesque-Medium.ttf */; };
 		A9A4BC372BBD1A1C00675F25 /* explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC362BBD1A1C00675F25 /* explosion.sks */; };
+		A9A4BC3A2BBDC8D900675F25 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = A9A4BC392BBDC8D900675F25 /* GoogleMobileAds */; };
+		A9A4BC3C2BBDCACF00675F25 /* RewardedAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A4BC3B2BBDCACF00675F25 /* RewardedAdView.swift */; };
+		A9A4BC3E2BC0839F00675F25 /* StoreScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A4BC3D2BC0839F00675F25 /* StoreScene.swift */; };
+		A9A4BC402BC0877500675F25 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A4BC3F2BC0877500675F25 /* SoundManager.swift */; };
+		A9A4BC442BC088C200675F25 /* theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC432BC088C200675F25 /* theme.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +61,10 @@
 		A9A4BC322BBCF39700675F25 /* GameKitHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameKitHelper.swift; sourceTree = "<group>"; };
 		A9A4BC342BBD0D1600675F25 /* BricolageGrotesque-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BricolageGrotesque-Medium.ttf"; sourceTree = "<group>"; };
 		A9A4BC362BBD1A1C00675F25 /* explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = explosion.sks; sourceTree = "<group>"; };
+		A9A4BC3B2BBDCACF00675F25 /* RewardedAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardedAdView.swift; sourceTree = "<group>"; };
+		A9A4BC3D2BC0839F00675F25 /* StoreScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreScene.swift; sourceTree = "<group>"; };
+		A9A4BC3F2BC0877500675F25 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		A9A4BC432BC088C200675F25 /* theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = theme.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9A4BC3A2BBDC8D900675F25 /* GoogleMobileAds in Frameworks */,
 				A9A4BC2C2BBC766100675F25 /* FirebaseAnalyticsSwift in Frameworks */,
 				A9A4BC282BBC766100675F25 /* FirebaseAnalytics in Frameworks */,
 				A9A4BC2A2BBC766100675F25 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
@@ -108,6 +118,7 @@
 		A9A4BC0A2BB1FF7B00675F25 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A9A4BC3F2BC0877500675F25 /* SoundManager.swift */,
 				A97D49842BACB6FB000AD0A3 /* Object.swift */,
 				A9A4BC142BB3383700675F25 /* PowerUp.swift */,
 				A9A4BC102BB202A100675F25 /* Kite.swift */,
@@ -120,6 +131,7 @@
 			children = (
 				A97D49822BACA633000AD0A3 /* MenuScene.swift */,
 				A93D54512BAB01160094ACA7 /* GameScene.swift */,
+				A9A4BC3D2BC0839F00675F25 /* StoreScene.swift */,
 				A9A4BC122BB2455B00675F25 /* DeathScene.swift */,
 			);
 			path = SceneController;
@@ -137,6 +149,7 @@
 		A9A4BC0E2BB1FFED00675F25 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A9A4BC432BC088C200675F25 /* theme.mp3 */,
 				A9A4BC222BBC471F00675F25 /* Montserrat-Regular.ttf */,
 				A9A4BC342BBD0D1600675F25 /* BricolageGrotesque-Medium.ttf */,
 				A93D54582BAB01170094ACA7 /* Assets.xcassets */,
@@ -154,6 +167,7 @@
 				A93D54532BAB01160094ACA7 /* GameViewController.swift */,
 				A93D544B2BAB01160094ACA7 /* AppDelegate.swift */,
 				A9A4BC322BBCF39700675F25 /* GameKitHelper.swift */,
+				A9A4BC3B2BBDCACF00675F25 /* RewardedAdView.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -180,6 +194,7 @@
 				A9A4BC2B2BBC766100675F25 /* FirebaseAnalyticsSwift */,
 				A9A4BC2D2BBC766100675F25 /* FirebaseAnalyticsWithoutAdIdSupport */,
 				A9A4BC2F2BBC766100675F25 /* FirebaseAppCheck */,
+				A9A4BC392BBDC8D900675F25 /* GoogleMobileAds */,
 			);
 			productName = "Kite-Odyssey";
 			productReference = A93D54482BAB01160094ACA7 /* Kite-Odyssey.app */;
@@ -211,6 +226,7 @@
 			mainGroup = A93D543F2BAB01160094ACA7;
 			packageReferences = (
 				A9A4BC262BBC766100675F25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				A9A4BC382BBDC8D900675F25 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = A93D54492BAB01160094ACA7 /* Products */;
 			projectDirPath = "";
@@ -226,6 +242,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9A4BC442BC088C200675F25 /* theme.mp3 in Resources */,
 				A93D544E2BAB01160094ACA7 /* GameScene.sks in Resources */,
 				A93D54572BAB01160094ACA7 /* Base in Resources */,
 				A9A4BC232BBC471F00675F25 /* Montserrat-Regular.ttf in Resources */,
@@ -250,7 +267,10 @@
 				A93D54522BAB01160094ACA7 /* GameScene.swift in Sources */,
 				A9A4BC152BB3383700675F25 /* PowerUp.swift in Sources */,
 				A9A4BC112BB202A100675F25 /* Kite.swift in Sources */,
+				A9A4BC3E2BC0839F00675F25 /* StoreScene.swift in Sources */,
+				A9A4BC402BC0877500675F25 /* SoundManager.swift in Sources */,
 				A9A4BC332BBCF39700675F25 /* GameKitHelper.swift in Sources */,
+				A9A4BC3C2BBDCACF00675F25 /* RewardedAdView.swift in Sources */,
 				A97D49832BACA633000AD0A3 /* MenuScene.swift in Sources */,
 				A93D54542BAB01160094ACA7 /* GameViewController.swift in Sources */,
 				A93D544C2BAB01160094ACA7 /* AppDelegate.swift in Sources */,
@@ -408,6 +428,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = K6W38SA3SY;
+				GCC_PREPROCESSOR_DEFINITIONS = "FIREBASE_ANALYTICS_SUPPRESS_WARNING=1";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Kite-Odyssey/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Kite Odyssey";
@@ -446,6 +467,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = K6W38SA3SY;
+				GCC_PREPROCESSOR_DEFINITIONS = "FIREBASE_ANALYTICS_SUPPRESS_WARNING=1";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Kite-Odyssey/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Kite Odyssey";
@@ -507,6 +529,14 @@
 				minimumVersion = 10.23.1;
 			};
 		};
+		A9A4BC382BBDC8D900675F25 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -534,6 +564,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A9A4BC262BBC766100675F25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAppCheck;
+		};
+		A9A4BC392BBDC8D900675F25 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9A4BC382BBDC8D900675F25 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

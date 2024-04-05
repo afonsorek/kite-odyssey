@@ -14,27 +14,59 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
     var gameKitHelper = GameKitHelper()
     
     private var button: SKSpriteNode?
+    private var bg: SKSpriteNode?
     private var bestScore: SKLabelNode?
+    private var logo: SKSpriteNode?
     
     
     private let positions:[CGFloat] = [-400, -330, -260]
     private let opacity = [0.25, 0.55, 1.0]
     private var count = 0
     
+    let device = UIDevice.current.userInterfaceIdiom
+    
     private var cooldown = 0.7
     
+    let minSwipeSpeed = 200.0
+    var lastTouchPosition = CGPoint()
+    var lastTouchTime = TimeInterval()
+    var screenTouch = false
+    var swipingUp = false
+    
     override func didMove(to view: SKView) {
+        if device == .pad{
+            self.size = UIScreen.main.bounds.size
+        }
+        
+        
         UserDefaults.standard.set("kite-standart", forKey: "kiteSkin")
         
-        _ = Kite(child: self.childNode(withName: "kite-menu")! as! SKSpriteNode)
+        GKAccessPoint.shared.location = .bottomLeading
+        GKAccessPoint.shared.isActive = true
         
-        let swipeUp : UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MenuScene.swipeUp))
-        swipeUp.direction = .up
-        self.view!.addGestureRecognizer(swipeUp)
+        _ = Kite(child: self.childNode(withName: "kite-menu")! as! SKSpriteNode)
         
         self.button = self.childNode(withName: "button") as? SKSpriteNode
         self.bestScore = self.childNode(withName: "bestScore") as? SKLabelNode
         self.bestScore?.fontName = "Montserrat-Regular"
+        
+        if device == .pad{
+            self.logo?.anchorPoint.y = 1.0
+            self.logo?.size.width = self.frame.size.width*0.6
+            self.logo?.size.height = self.frame.size.height*0.25
+            self.logo?.position.x = 0
+        }
+        
+        self.logo = self.childNode(withName: "logo-menu") as? SKSpriteNode
+        self.logo?.position.y = (self.frame.size.height/2)-100
+        
+        self.bg = self.childNode(withName: "long-bg") as? SKSpriteNode
+        
+        if device == .pad{
+            bg?.position.y = -(self.size.height/2)
+            bg?.size.width = self.frame.size.width
+            bg?.texture = SKTexture(imageNamed: "long-bg-ipad")
+        }
         
         self.run(SKAction.repeatForever(SKAction.sequence([
             SKAction.run {
@@ -83,19 +115,58 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
         self.cooldown = 0.5
     }
     
-    @objc func swipeUp(sender: UISwipeGestureRecognizer){
-        print("oi")
-        if let scene = SKScene(fileNamed: "GameScene") {
-            self.removeAllActions()
-            self.removeAllChildren()
-            scene.scaleMode = .aspectFill
-            self.view?.presentScene(scene)
+    private func checkSwipeUp(newPosition : CGPoint, newTime: TimeInterval) -> Bool {
+        let dy = newPosition.y - lastTouchPosition.y
+        let dt = CGFloat(newTime-lastTouchTime)
+        let speed = dy/dt
+        
+        let newSwipe = (speed > minSwipeSpeed) && !swipingUp
+        if (newSwipe) {
+            swipingUp = true
         }
         
-        self.view?.ignoresSiblingOrder = true
+        return newSwipe
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard touches.first != nil else {
+            return
+        }
+        
+        screenTouch = false
+        swipingUp = false
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard touches.first != nil else {
+            return
+        }
+        
+        let newTouchPosition = (touches.first?.location(in: self))!
+        let newTouchTime = event!.timestamp
+        if (checkSwipeUp(newPosition: newTouchPosition, newTime: newTouchTime)) {
+            if let scene = SKScene(fileNamed: "GameScene") {
+                self.removeAllActions()
+                self.removeAllChildren()
+                scene.scaleMode = .aspectFill
+                self.view?.presentScene(scene)
+            }
+            
+            self.view?.ignoresSiblingOrder = true
+        }
+        lastTouchPosition = newTouchPosition
+        lastTouchTime = newTouchTime
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard touches.first != nil else {
+            return
+        }
+        
+        screenTouch = true
+        lastTouchPosition = (touches.first?.location(in: self))!
+        lastTouchTime = event!.timestamp
+        
          for touch in touches {
               let location = touch.location(in: self)
               let touchedNode = atPoint(location)
@@ -106,8 +177,9 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
                     SKAction.wait(forDuration: 0.2),
                     SKAction.scale(to: 1.0, duration: 0.2)
                   ]))
-                  let viewController = self.view?.window?.rootViewController
-                  gameKitHelper.showLeader(view: viewController!)
+                  let alert = UIAlertController(title: "Kite skins", message: "Coming soon", preferredStyle: UIAlertController.Style.alert)
+                  alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: .none))
+                  self.view?.window?.rootViewController?.present(alert, animated: true, completion: nil)
               }
          }
     }

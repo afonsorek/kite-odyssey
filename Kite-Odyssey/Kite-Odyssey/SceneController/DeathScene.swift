@@ -9,11 +9,16 @@ import Foundation
 import SpriteKit
 import SwiftUI
 
-class DeathScene: SKNode{
-    init(father: SKScene, score: Int){
-        super.init()
+class DeathScene: ObservableObject{
+    var child = SKSpriteNode()
+    var isSecondChance: Bool
+    @Published var score = 0
+    init(father: SKScene, score: Int, isSecondChance: Bool){
+        
+        self.score = score
+        self.isSecondChance = isSecondChance
 
-        let filter = SKSpriteNode(color: UIColor(ciColor: CIColor(red: 0, green: 0, blue: 0, alpha: 0.2)), size: father.size)
+        let filter = SKSpriteNode(color: UIColor(ciColor: CIColor(red: 0, green: 0, blue: 0, alpha: 0.35)), size: father.size)
         filter.zPosition = 20
         
         let banner = SKSpriteNode(imageNamed: "banner")
@@ -21,8 +26,9 @@ class DeathScene: SKNode{
         banner.zPosition = 21
         banner.setScale(1.5)
         
-        let score = SKLabelNode(text: "\(score)")
+        let score = SKLabelNode(text: "\(self.score)")
         score.fontSize = 80
+        score.name = "score"
         score.fontName = "BricolageGrotesque-Medium"
         score.position.y = -15
         score.zPosition = 22
@@ -36,7 +42,8 @@ class DeathScene: SKNode{
         text.fontColor = UIColor(.orangeScore)
         
         let continueButton:SKSpriteNode = SKSpriteNode(imageNamed: "continue")
-        continueButton.name = "continue"
+        continueButton.name = isSecondChance ? "rip" : "continue"
+        continueButton.alpha = isSecondChance ? 0.5 : 1.0
         continueButton.setScale(0.6)
         continueButton.zPosition = 21
         continueButton.position = CGPoint(x: 0, y: -360)
@@ -55,13 +62,14 @@ class DeathScene: SKNode{
         
         banner.position.y = (father.size.height/2)-300
         
-        self.addChild(filter)
-        self.addChild(banner)
+        self.child.addChild(filter)
+        self.child.addChild(banner)
         banner.addChild(score)
         banner.addChild(text)
-        self.addChild(restart)
-        self.addChild(home)
+        self.child.addChild(restart)
+        self.child.addChild(home)
         banner.addChild(continueButton)
+
     }
     
     required init?(coder aDecoder: NSCoder) {
