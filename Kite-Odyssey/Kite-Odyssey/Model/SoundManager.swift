@@ -48,7 +48,7 @@ class SoundManager {
         if audioPlayer.volume != 0.0{
             audioPlayer.volume -= 0.1
         }else{
-            stop(sound: sound)
+            audioPlayer.pause()
             return
         }
     }

@@ -22,7 +22,7 @@ let rewardAdId = "ca-app-pub-3940256099942544/5224354917"
 let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
 #endif
     
-    var gameCenterLeaderboardID = "highestKite"
+    let gameCenterLeaderboardID = "highestKite"
     
     let soundController = SoundManager()
     
@@ -64,13 +64,10 @@ let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
     
     private var deathScene: DeathScene?
     
-    override func sceneDidLoad() {
-        checkRecord()
-    }
-    
     
     override func didMove(to view: SKView) {
-        soundController.playLoop(sound: .theme)
+        self.soundController.stop(sound: .theme)
+        self.soundController.playLoop(sound: .theme)
         if UIDevice.current.userInterfaceIdiom == .pad{
             self.size = UIScreen.main.bounds.size
         }
@@ -127,6 +124,7 @@ let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
         self.bestLabel = self.childNode(withName: "bestScore") as? SKLabelNode
         self.bestLabel?.fontName = "Montserrat-Regular"
         self.bestLabel?.text = "Best: \(bestScore) m"
+        self.checkRecord()
         
         self.playerScore = self.childNode(withName: "playerScore") as? SKLabelNode
         self.playerScore?.fontName = "Montserrat-Regular"
@@ -214,17 +212,26 @@ let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
      }
     
     func checkRecord(){
-        if let record = UserDefaults.standard.object(forKey: "bestScore") as? Int {
-            bestScore = record
-        }
-        
         let record = UserDefaults.standard.object(forKey: "bestScore") as? Int
+        self.bestScore = record ?? 0
         
-        if score > record ?? 0 {
+        self.bestScore = record!
+        self.bestLabel?.text = "Best: \(bestScore) m"
+        
+        if GKLocalPlayer.local.isAuthenticated{
+            GKLeaderboard.loadLeaderboards( IDs: [gameCenterLeaderboardID]) { leaderboards, _ in
+                leaderboards?[0].loadEntries( for: [GKLocalPlayer.local], timeScope: .allTime) { player, _, _ in
+                    self.bestScore = player?.score ?? 0
+                    self.bestLabel?.text = "Best: \(self.bestScore) m"
+                }
+            }
+        }
+
+        if score > record ?? 0 || record ?? 0 > bestScore {
             UserDefaults.standard.set(score, forKey: "bestScore")
             
             if GKLocalPlayer.local.isAuthenticated{
-                GKLeaderboard.submitScore(record ?? 0, context: 0, player: GKLocalPlayer.local, leaderboardIDs: [gameCenterLeaderboardID]) { error in
+                GKLeaderboard.submitScore(score, context: 0, player: GKLocalPlayer.local, leaderboardIDs: [gameCenterLeaderboardID]) { error in
                     if error != nil{
                         print(error!.localizedDescription)
                     } else{
@@ -253,6 +260,7 @@ let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
         }
         self.isSecondChance = true
         self.view?.isPaused = false
+        self.soundController.play(sound: .theme)
         self.kite?.setBody()
     }
     
@@ -277,8 +285,8 @@ let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
             SKAction.run {
                 self.soundController.fadeOut(sound: .theme)
             },
-            SKAction.wait(forDuration: 0.2)
-        ]), count: 10))
+            SKAction.wait(forDuration: 0.2),
+        ]), count: 11))
         self.redscreen()
         self.view!.isUserInteractionEnabled = false // Disable user interaction
         self.run(SKAction.sequence([
@@ -289,7 +297,7 @@ let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
                     self.deathScene!.child.name = "deathScene"
                     self.deathScene!.child.isHidden = true
                     self.addChild(self.deathScene!.child)
-                    
+                    self.soundController.stop(sound: .theme)
                     self.deathScene!.child.isHidden = false
                 }
             },
@@ -303,8 +311,13 @@ let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
     }
     
     func playerDeath() {
+        self.run(SKAction.repeat(SKAction.sequence([
+            SKAction.run {
+                self.soundController.fadeOut(sound: .theme)
+            },
+            SKAction.wait(forDuration: 0.2),
+        ]), count: 11))
         checkRecord()
-        soundController.fadeOut(sound: .theme)
         
         self.redscreen()
         
@@ -316,6 +329,7 @@ let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
             },
             SKAction.wait(forDuration: 2),
             SKAction.run {
+                self.soundController.stop(sound: .theme)
                 self.kite?.child!.removeFromParent()
                 self.playerScore?.removeFromParent()
                 self.bestLabel?.removeFromParent()

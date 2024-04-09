@@ -11,6 +11,7 @@ import GameplayKit
 import GameKit
 
 class MenuScene: SKScene, SKPhysicsContactDelegate{
+    let gameCenterLeaderboardID = "highestKite"
     var gameKitHelper = GameKitHelper()
     
     private var button: SKSpriteNode?
@@ -22,6 +23,8 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
     private let positions:[CGFloat] = [-400, -330, -260]
     private let opacity = [0.25, 0.55, 1.0]
     private var count = 0
+    
+    var bestScor = 0
     
     let device = UIDevice.current.userInterfaceIdiom
     
@@ -90,11 +93,13 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
             
             }, SKAction.wait(forDuration: self.cooldown)])))
         
-        if let record = UserDefaults.standard.object(forKey: "bestScore") as? Int {
-            self.bestScore?.text = "\(record)"
-            self.bestScore?.fontSize = 28
-        }
+            
+        self.bestScore?.fontSize = 28
         self.button?.name = "button"
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+2){ [self] in
+            self.checkRecord()
+        }
         
 
     }
@@ -113,6 +118,36 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
             }
         }
         self.cooldown = 0.5
+    }
+    
+    func checkRecord(){
+        let record = UserDefaults.standard.object(forKey: "bestScore") as? Int
+        var leaderboard = 0
+        
+        if GKLocalPlayer.local.isAuthenticated{
+            GKLeaderboard.loadLeaderboards( IDs: [gameCenterLeaderboardID]) { leaderboards, _ in
+                leaderboards?[0].loadEntries( for: [GKLocalPlayer.local], timeScope: .allTime) { player, _, _ in
+                    leaderboard = player?.score ?? 0
+                    print("leaderboard = \(leaderboard)")
+                    self.bestScore?.text = "\(leaderboard)"
+                }
+            }
+        }
+
+        if record ?? 0 > leaderboard {
+            UserDefaults.standard.set(record, forKey: "bestScore")
+            
+                GKLeaderboard.submitScore(record ?? 0, context: 0, player: GKLocalPlayer.local, leaderboardIDs: [gameCenterLeaderboardID]) { error in
+                    if error != nil{
+                        print(error!.localizedDescription)
+                    } else{
+                        self.bestScore?.text = "\(String(describing: record))"
+                        print("Score Submitted")
+                    }
+                }
+        }
+        
+        
     }
     
     private func checkSwipeUp(newPosition : CGPoint, newTime: TimeInterval) -> Bool {
