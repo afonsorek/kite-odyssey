@@ -214,8 +214,7 @@ let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
     func checkRecord(){
         let record = UserDefaults.standard.object(forKey: "bestScore") as? Int
         self.bestScore = record ?? 0
-        
-        self.bestScore = record!
+
         self.bestLabel?.text = "Best: \(bestScore) m"
         
         if GKLocalPlayer.local.isAuthenticated{
