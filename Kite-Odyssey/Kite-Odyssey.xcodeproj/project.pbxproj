@@ -36,6 +36,7 @@
 		A9A4BC3E2BC0839F00675F25 /* StoreScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A4BC3D2BC0839F00675F25 /* StoreScene.swift */; };
 		A9A4BC402BC0877500675F25 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A4BC3F2BC0877500675F25 /* SoundManager.swift */; };
 		A9A4BC442BC088C200675F25 /* theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A9A4BC432BC088C200675F25 /* theme.mp3 */; };
+		A9E451D32BC86A15003E8904 /* StoreScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A9E451D22BC86A15003E8904 /* StoreScene.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +66,7 @@
 		A9A4BC3D2BC0839F00675F25 /* StoreScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreScene.swift; sourceTree = "<group>"; };
 		A9A4BC3F2BC0877500675F25 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		A9A4BC432BC088C200675F25 /* theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = theme.mp3; sourceTree = "<group>"; };
+		A9E451D22BC86A15003E8904 /* StoreScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = StoreScene.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 			children = (
 				A97D49802BACA51E000AD0A3 /* MenuScene.sks */,
 				A93D544D2BAB01160094ACA7 /* GameScene.sks */,
+				A9E451D22BC86A15003E8904 /* StoreScene.sks */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9E451D32BC86A15003E8904 /* StoreScene.sks in Resources */,
 				A9A4BC442BC088C200675F25 /* theme.mp3 in Resources */,
 				A93D544E2BAB01160094ACA7 /* GameScene.sks in Resources */,
 				A93D54572BAB01160094ACA7 /* Base in Resources */,
@@ -444,7 +448,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.afonso.rekbaim.Kite-Odyssey";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -483,7 +487,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.afonso.rekbaim.Kite-Odyssey";
 				PRODUCT_NAME = "$(TARGET_NAME)";

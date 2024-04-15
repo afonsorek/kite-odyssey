@@ -37,13 +37,6 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
     var swipingUp = false
     
     override func didMove(to view: SKView) {
-        if device == .pad{
-            self.size = UIScreen.main.bounds.size
-        }
-        
-        
-        UserDefaults.standard.set("kite-standart", forKey: "kiteSkin")
-        
         GKAccessPoint.shared.location = .bottomLeading
         GKAccessPoint.shared.isActive = true
         
@@ -130,21 +123,23 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
                     leaderboard = player?.score ?? 0
                     print("leaderboard = \(leaderboard)")
                     self.bestScore?.text = "\(leaderboard)"
-                }
-            }
-        }
-
-        if record ?? 0 > leaderboard {
-            UserDefaults.standard.set(record, forKey: "bestScore")
-            
-                GKLeaderboard.submitScore(record ?? 0, context: 0, player: GKLocalPlayer.local, leaderboardIDs: [gameCenterLeaderboardID]) { error in
-                    if error != nil{
-                        print(error!.localizedDescription)
-                    } else{
-                        self.bestScore?.text = "\(String(describing: record))"
-                        print("Score Submitted")
+                    
+                    if record ?? 0 > leaderboard {
+                        UserDefaults.standard.set(record, forKey: "bestScore")
+                        
+                        GKLeaderboard.submitScore(record ?? 0, context: 0, player: GKLocalPlayer.local, leaderboardIDs: [self.gameCenterLeaderboardID]) { error in
+                                if error != nil{
+                                    print(error!.localizedDescription)
+                                } else{
+                                    self.bestScore?.text = "\(record ?? 0)"
+                                    print("Score Submitted")
+                                }
+                            }
+                    }else{
+                        return
                     }
                 }
+            }
         }
         
         
@@ -207,6 +202,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
               let touchedNode = atPoint(location)
               
               if touchedNode.name == "button" {
+                  UserDefaults.standard.set("kite-blue", forKey: "kiteSkin")
                   self.button?.run(SKAction.sequence([
                     SKAction.scale(to: 1.1, duration: 0.2),
                     SKAction.wait(forDuration: 0.2),

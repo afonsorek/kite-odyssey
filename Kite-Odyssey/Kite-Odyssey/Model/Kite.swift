@@ -17,7 +17,15 @@ class Kite{
     
     func loadTexture(){
         let skin = UserDefaults.standard.object(forKey: "kiteSkin")
-        child!.texture = SKTexture(imageNamed: skin as! String)
+        if skin != nil{
+            child!.texture = SKTexture(imageNamed: skin as! String)
+            child?.size = (child?.texture?.size())!
+            child?.setScale(0.03)
+        }else{
+            child!.texture = SKTexture(imageNamed: "kite-blue")
+            child?.size = (child?.texture?.size())!
+            child?.setScale(0.03)
+        }
     }
     
     func resetBody(){
@@ -43,8 +51,9 @@ class Kite{
     
     func applyForce(velocity: CGVector, translation: CGPoint){
         child!.run(SKAction.rotate(toAngle: 0, duration: 0.07))
+        child?.physicsBody?.angularDamping = 0
         child!.physicsBody?.linearDamping = 1.0
-        child!.physicsBody?.applyAngularImpulse(-(translation.x/1000))
+        child!.physicsBody?.applyAngularImpulse(-(translation.x/3000))
         child!.physicsBody?.velocity = velocity
     }
     

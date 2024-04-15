@@ -19,7 +19,7 @@ class GameScene: SKScene, GADFullScreenContentDelegate, SKPhysicsContactDelegate
 #if DEBUG
 let rewardAdId = "ca-app-pub-3940256099942544/5224354917"
 #else
-let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
+let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
 #endif
     
     let gameCenterLeaderboardID = "highestKite"
@@ -124,7 +124,8 @@ let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
         self.bestLabel = self.childNode(withName: "bestScore") as? SKLabelNode
         self.bestLabel?.fontName = "Montserrat-Regular"
         self.bestLabel?.text = "Best: \(bestScore) m"
-        self.checkRecord()
+        
+        self.loadRecord()
         
         self.playerScore = self.childNode(withName: "playerScore") as? SKLabelNode
         self.playerScore?.fontName = "Montserrat-Regular"
@@ -211,26 +212,36 @@ let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
         }
      }
     
-    func checkRecord(){
+    func loadRecord(){
         let record = UserDefaults.standard.object(forKey: "bestScore") as? Int
-        self.bestScore = record ?? 0
-
-        self.bestLabel?.text = "Best: \(bestScore) m"
+        
+        if record != nil{
+            self.bestScore = record!
+            self.bestLabel?.text = "Best: \(self.bestScore) m"
+        }else{
+            
+        }
         
         if GKLocalPlayer.local.isAuthenticated{
             GKLeaderboard.loadLeaderboards( IDs: [gameCenterLeaderboardID]) { leaderboards, _ in
                 leaderboards?[0].loadEntries( for: [GKLocalPlayer.local], timeScope: .allTime) { player, _, _ in
-                    self.bestScore = player?.score ?? 0
-                    self.bestLabel?.text = "Best: \(self.bestScore) m"
+                    if player?.score ?? 0 > record ?? 0{
+                        self.bestScore = player?.score ?? 0
+                        self.bestLabel?.text = "Best: \(self.bestScore) m"
+                    }
                 }
             }
         }
+    }
+    
+    func setRecord(){
+        let record = UserDefaults.standard.object(forKey: "bestScore") as? Int
 
-        if score > record ?? 0 || record ?? 0 > bestScore {
-            UserDefaults.standard.set(score, forKey: "bestScore")
+        if self.score > record ?? 0 || record ?? 0 > bestScore {
+            UserDefaults.standard.set(self.score, forKey: "bestScore")
             
             if GKLocalPlayer.local.isAuthenticated{
-                GKLeaderboard.submitScore(score, context: 0, player: GKLocalPlayer.local, leaderboardIDs: [gameCenterLeaderboardID]) { error in
+                GKLeaderboard.submitScore(self.score, context: 0, player: GKLocalPlayer.local, leaderboardIDs: [gameCenterLeaderboardID]) { error in
                     if error != nil{
                         print(error!.localizedDescription)
                     } else{
@@ -261,6 +272,7 @@ let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
         self.view?.isPaused = false
         self.soundController.play(sound: .theme)
         self.kite?.setBody()
+        self.cancel = false
     }
     
     func redscreen(){
@@ -307,6 +319,7 @@ let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
             }
         ]))
         cancel = true
+        setRecord()
     }
     
     func playerDeath() {
@@ -316,7 +329,7 @@ let rewardAdId = "ca-app-pub-1875006395039971~6903365759"
             },
             SKAction.wait(forDuration: 0.2),
         ]), count: 11))
-        checkRecord()
+        setRecord()
         
         self.redscreen()
         
