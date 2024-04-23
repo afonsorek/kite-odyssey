@@ -587,41 +587,41 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
         }
     }
     
-    func instagramStoriesShare(){
-        guard let capturedImage = captureSceneAsUIImage() else {
-            print("Failed to capture scene")
-            return
-        }
-        
-        let instagramUrl = URL(string: "instagram-stories://share")
-        if UIApplication.shared.canOpenURL(instagramUrl!) {
-            guard let imageData = capturedImage.pngData() else {
-                print("Failed to convert image to data")
-                return
-            }
-            
-            let pasteboardItems: [String: Any] = [
-                "com.instagram.sharedSticker.stickerImage": imageData,
-                "com.instagram.sharedSticker.backgroundTopColor": "#275FA5",
-                "com.instagram.sharedSticker.backgroundBottomColor": "#D9C26B"
-            ]
-            
-            let pasteboardOptions = [
-                UIPasteboard.OptionsKey.expirationDate: Date().addingTimeInterval(300)
-            ]
-            
-            UIPasteboard.general.setItems([pasteboardItems], options: pasteboardOptions)
-            UIApplication.shared.open(instagramUrl!, options: [:]) { (success) in
-                if !success {
-                    print("Deep link failed, fallback to sharing sheet")
-                    self.shareCapturedImage(capturedImage)
-                }
-            }
-        } else {
-            print("Instagram app not installed, fallback to sharing sheet")
-            self.shareCapturedImage(capturedImage)
-        }
-    }
+//    func instagramStoriesShare(){
+//        guard let capturedImage = captureSceneAsUIImage() else {
+//            print("Failed to capture scene")
+//            return
+//        }
+//        
+//        let instagramUrl = URL(string: "instagram-stories://share")
+//        if UIApplication.shared.canOpenURL(instagramUrl!) {
+//            guard let imageData = capturedImage.pngData() else {
+//                print("Failed to convert image to data")
+//                return
+//            }
+//            
+//            let pasteboardItems: [String: Any] = [
+//                "com.instagram.sharedSticker.stickerImage": imageData,
+//                "com.instagram.sharedSticker.backgroundTopColor": "#275FA5",
+//                "com.instagram.sharedSticker.backgroundBottomColor": "#D9C26B"
+//            ]
+//            
+//            let pasteboardOptions = [
+//                UIPasteboard.OptionsKey.expirationDate: Date().addingTimeInterval(300)
+//            ]
+//            
+//            UIPasteboard.general.setItems([pasteboardItems], options: pasteboardOptions)
+//            UIApplication.shared.open(instagramUrl!, options: [:]) { (success) in
+//                if !success {
+//                    print("Deep link failed, fallback to sharing sheet")
+//                    self.shareCapturedImage(capturedImage)
+//                }
+//            }
+//        } else {
+//            print("Instagram app not installed, fallback to sharing sheet")
+//            self.shareCapturedImage(capturedImage)
+//        }
+//    }
     
     func shareCapturedImage(_ image: UIImage) {
         let newWidth: CGFloat = 1000

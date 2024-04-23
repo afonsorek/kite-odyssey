@@ -2,28 +2,30 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-<key>CFBundleURLTypes</key>
+	<key>CFBundleURLTypes</key>
 	<array>
-	<dict>
-	<key>CFBundleURLSchemes</key>
-	<array>
-		<string>fb1374491199886441</string>
-	</array>
-	</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1374491199886441</string>
+			</array>
+		</dict>
 	</array>
 	<key>FacebookAppID</key>
 	<string>1374491199886441</string>
 	<key>FacebookDisplayName</key>
 	<string>Kite Odyssey</string>
-	<key>NSPrivacyAccessedAPITypes</key>
-	<string></string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-1875006395039971~6903365759</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>instagram</string>
 		<string>instagram-stories</string>
 	</array>
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-1875006395039971~6903365759</string>
+	<key>NSPrivacyAccessedAPICategoryUserDefaults</key>
+	<string>I am using User Defaults for saving the best score of the user on the run.</string>
+	<key>NSPrivacyAccessedAPITypes</key>
+	<string></string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
@@ -223,12 +225,16 @@
 			<string>3qcr597p9d.skadnetwork</string>
 		</dict>
 	</array>
-	<key>NSPrivacyAccessedAPICategoryUserDefaults</key>
-	<string>I am using User Defaults for saving the best score of the user on the run.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Regular.ttf</string>
 		<string>BricolageGrotesque-Medium.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>processing</string>
+		<string>remote-notification</string>
 	</array>
 </dict>
 </plist>

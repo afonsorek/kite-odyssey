@@ -11,11 +11,8 @@
 		A904D5152BD2DC3A009FDA8C /* PurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A904D5142BD2DC3A009FDA8C /* PurchaseManager.swift */; };
 		A904D5182BD2DC7F009FDA8C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A904D5172BD2DC7F009FDA8C /* StoreKit.framework */; };
 		A904D51A2BD2DCBB009FDA8C /* PurchaseConfig.storekit in Resources */ = {isa = PBXBuildFile; fileRef = A904D5192BD2DCBB009FDA8C /* PurchaseConfig.storekit */; };
-		A904D5422BD7DBF5009FDA8C /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A904D53E2BD7DBF5009FDA8C /* FBSDKCoreKit.framework */; };
-		A904D5432BD7DBF5009FDA8C /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A904D53F2BD7DBF5009FDA8C /* Bolts.framework */; };
-		A904D5442BD7DBF5009FDA8C /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A904D5402BD7DBF5009FDA8C /* FBSDKLoginKit.framework */; };
-		A904D5452BD7DBF5009FDA8C /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A904D5412BD7DBF5009FDA8C /* FBSDKShareKit.framework */; };
 		A904D5472BD7EAB8009FDA8C /* PrintScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A904D5462BD7EAB8009FDA8C /* PrintScene.swift */; };
+		A904D5492BD834CF009FDA8C /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = A904D5482BD834CF009FDA8C /* FirebaseMessaging */; };
 		A93D544C2BAB01160094ACA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93D544B2BAB01160094ACA7 /* AppDelegate.swift */; };
 		A93D544E2BAB01160094ACA7 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A93D544D2BAB01160094ACA7 /* GameScene.sks */; };
 		A93D54522BAB01160094ACA7 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93D54512BAB01160094ACA7 /* GameScene.swift */; };
@@ -53,10 +50,6 @@
 		A904D5142BD2DC3A009FDA8C /* PurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseManager.swift; sourceTree = "<group>"; };
 		A904D5172BD2DC7F009FDA8C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A904D5192BD2DCBB009FDA8C /* PurchaseConfig.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = PurchaseConfig.storekit; sourceTree = "<group>"; };
-		A904D53E2BD7DBF5009FDA8C /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		A904D53F2BD7DBF5009FDA8C /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		A904D5402BD7DBF5009FDA8C /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		A904D5412BD7DBF5009FDA8C /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		A904D5462BD7EAB8009FDA8C /* PrintScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintScene.swift; sourceTree = "<group>"; };
 		A93D54482BAB01160094ACA7 /* Kite-Odyssey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kite-Odyssey.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A93D544B2BAB01160094ACA7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -92,15 +85,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A904D5492BD834CF009FDA8C /* FirebaseMessaging in Frameworks */,
 				A9A4BC3A2BBDC8D900675F25 /* GoogleMobileAds in Frameworks */,
 				A904D5182BD2DC7F009FDA8C /* StoreKit.framework in Frameworks */,
-				A904D5442BD7DBF5009FDA8C /* FBSDKLoginKit.framework in Frameworks */,
 				A9A4BC2C2BBC766100675F25 /* FirebaseAnalyticsSwift in Frameworks */,
 				A9A4BC282BBC766100675F25 /* FirebaseAnalytics in Frameworks */,
 				A9A4BC2A2BBC766100675F25 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
-				A904D5452BD7DBF5009FDA8C /* FBSDKShareKit.framework in Frameworks */,
-				A904D5422BD7DBF5009FDA8C /* FBSDKCoreKit.framework in Frameworks */,
-				A904D5432BD7DBF5009FDA8C /* Bolts.framework in Frameworks */,
 				A9A4BC302BBC766100675F25 /* FirebaseAppCheck in Frameworks */,
 				A9A4BC2E2BBC766100675F25 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 			);
@@ -112,10 +102,6 @@
 		A904D5162BD2DC7F009FDA8C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A904D53F2BD7DBF5009FDA8C /* Bolts.framework */,
-				A904D53E2BD7DBF5009FDA8C /* FBSDKCoreKit.framework */,
-				A904D5402BD7DBF5009FDA8C /* FBSDKLoginKit.framework */,
-				A904D5412BD7DBF5009FDA8C /* FBSDKShareKit.framework */,
 				A904D5172BD2DC7F009FDA8C /* StoreKit.framework */,
 			);
 			name = Frameworks;
@@ -238,6 +224,7 @@
 				A9A4BC2D2BBC766100675F25 /* FirebaseAnalyticsWithoutAdIdSupport */,
 				A9A4BC2F2BBC766100675F25 /* FirebaseAppCheck */,
 				A9A4BC392BBDC8D900675F25 /* GoogleMobileAds */,
+				A904D5482BD834CF009FDA8C /* FirebaseMessaging */,
 			);
 			productName = "Kite-Odyssey";
 			productReference = A93D54482BAB01160094ACA7 /* Kite-Odyssey.app */;
@@ -496,7 +483,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.5;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.afonso.rekbaim.Kite-Odyssey";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -539,7 +526,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.5;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.afonso.rekbaim.Kite-Odyssey";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -596,6 +583,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A904D5482BD834CF009FDA8C /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9A4BC262BBC766100675F25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
 		A9A4BC272BBC766100675F25 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A9A4BC262BBC766100675F25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
