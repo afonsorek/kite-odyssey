@@ -20,6 +20,10 @@ class Object: SKNode {
         self.position = CGPoint(x: (CGFloat(arc4random_uniform(UInt32(UIScreen.main.bounds.width/2))) * x), y: UIScreen.main.bounds.maxY - 112)
         //    set the size of the node
         
+        if image.name == "enemy-umbrella"{
+            self.setScale(0.7)
+        }
+        
         //        apply a physixs body to the node
         self.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: name), size: CGSize(width: image.size.width, height: image.size.height))
 

@@ -48,6 +48,12 @@ class DeathScene: ObservableObject{
         continueButton.zPosition = 21
         continueButton.position = CGPoint(x: 0, y: -360)
         
+        let instagram:SKSpriteNode = SKSpriteNode(imageNamed: "instagram")
+        instagram.setScale(0.7)
+        instagram.name = "instagram"
+        instagram.zPosition = 21
+        instagram.position = CGPoint(x: 0, y: -420)
+        
         let restart:SKSpriteNode = SKSpriteNode(imageNamed: "restart")
         restart.name = "restart"
         restart.setScale(0.85)
@@ -69,6 +75,7 @@ class DeathScene: ObservableObject{
         self.child.addChild(restart)
         self.child.addChild(home)
         banner.addChild(continueButton)
+        self.child.addChild(instagram)
 
     }
     

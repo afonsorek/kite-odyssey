@@ -19,6 +19,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
     private var bestScore: SKLabelNode?
     private var logo: SKSpriteNode?
     
+    let generator = UINotificationFeedbackGenerator()
     
     private let positions:[CGFloat] = [-400, -330, -260]
     private let opacity = [0.25, 0.55, 1.0]
@@ -193,24 +194,28 @@ class MenuScene: SKScene, SKPhysicsContactDelegate{
             return
         }
         
-        screenTouch = true
-        lastTouchPosition = (touches.first?.location(in: self))!
-        lastTouchTime = event!.timestamp
-        
          for touch in touches {
+             generator.notificationOccurred(.success)
+             
               let location = touch.location(in: self)
               let touchedNode = atPoint(location)
               
               if touchedNode.name == "button" {
-                  UserDefaults.standard.set("kite-blue", forKey: "kiteSkin")
                   self.button?.run(SKAction.sequence([
                     SKAction.scale(to: 1.1, duration: 0.2),
                     SKAction.wait(forDuration: 0.2),
-                    SKAction.scale(to: 1.0, duration: 0.2)
+                    SKAction.scale(to: 1.0, duration: 0.2),
+                    SKAction.run {
+                        if let scene = SKScene(fileNamed: "StoreScene") {
+                            self.removeAllActions()
+                            self.removeAllChildren()
+                            scene.scaleMode = .aspectFill
+                            self.view?.presentScene(scene)
+                        }
+                        
+                        self.view?.ignoresSiblingOrder = true
+                    }
                   ]))
-                  let alert = UIAlertController(title: "Kite skins", message: "Coming soon", preferredStyle: UIAlertController.Style.alert)
-                  alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: .none))
-                  self.view?.window?.rootViewController?.present(alert, animated: true, completion: nil)
               }
          }
     }

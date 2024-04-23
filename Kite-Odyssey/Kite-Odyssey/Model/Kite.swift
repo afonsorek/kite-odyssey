@@ -7,12 +7,21 @@
 
 import Foundation
 import SpriteKit
+import CoreHaptics
 
 class Kite{
     var child: SKSpriteNode?
+    var engine: CHHapticEngine?
+    
     init(child: SKSpriteNode){
         self.child = child
         self.loadTexture()
+        do {
+            engine = try CHHapticEngine()
+            try engine?.start()
+        } catch {
+            print("There was an error creating the engine: \(error.localizedDescription)")
+        }
     }
     
     func loadTexture(){

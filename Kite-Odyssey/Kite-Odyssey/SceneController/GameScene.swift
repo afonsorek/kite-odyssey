@@ -10,12 +10,13 @@ import GameplayKit
 import GameKit
 import SwiftUI
 import GoogleMobileAds
+import UIKit
+import CoreHaptics
 
 class GameScene: SKScene, GADFullScreenContentDelegate, SKPhysicsContactDelegate, GKGameCenterControllerDelegate{
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismiss(animated: true, completion: nil)
     }
-    
 #if DEBUG
 let rewardAdId = "ca-app-pub-3940256099942544/5224354917"
 #else
@@ -25,6 +26,9 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
     let gameCenterLeaderboardID = "highestKite"
     
     let soundController = SoundManager()
+    
+    var isBGinverted = false
+    var isLoaded = false
     
     private var dead = false
     private var cancel = false
@@ -36,8 +40,8 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
     private var trail = [CGPoint]()
     private var finger = [CGPoint]()
     
-    private var background: SKSpriteNode?
-    private var background2: SKSpriteNode?
+    private var bg: SKSpriteNode?
+    private var bg2: SKSpriteNode?
     
     private var playerScore: SKLabelNode?
     private var bestLabel: SKLabelNode?
@@ -55,7 +59,9 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
     private var scoreBase = 1
     private var translation: CGPoint = CGPoint(x: 0, y: 0)
     
-    private var velocity = 0.5
+    private var velocity = 0.8
+    private var originalPositionBG1: CGPoint?
+    private var originalPositionBG2: CGPoint?
     
     private var levelCount = 0.0
     private var enemyFreq = 4.0
@@ -64,13 +70,27 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
     
     private var deathScene: DeathScene?
     
+    let generator = UINotificationFeedbackGenerator()
+    var engine: CHHapticEngine?
     
     override func didMove(to view: SKView) {
+        kite = Kite(child: self.childNode(withName: "kite")! as! SKSpriteNode)
+        kite?.setBody()
+        
+        
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+
+        do {
+            engine = try CHHapticEngine()
+            try engine?.start()
+        } catch {
+            print("There was an error creating the engine: \(error.localizedDescription)")
+        }
+        
+        
         self.soundController.stop(sound: .theme)
         self.soundController.playLoop(sound: .theme)
-        if UIDevice.current.userInterfaceIdiom == .pad{
-            self.size = UIScreen.main.bounds.size
-        }
+        
         RewardedAd.shared.loadAd(withAdUnitId: rewardAdId)
         
         physicsWorld.contactDelegate = self
@@ -105,39 +125,88 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
             self.spawnPowerUp()
         }])))
         
-        //Apply force and create kite
-        kite = Kite(child: self.childNode(withName: "kite")! as! SKSpriteNode)
-        kite?.setBody()
         
-        self.background = self.childNode(withName: "long-bg") as? SKSpriteNode
-        self.background?.zPosition = -10
-        self.background?.run(SKAction.repeatForever(SKAction.sequence([SKAction.run {
-            self.background?.position.y-=self.velocity
-        }, SKAction.wait(forDuration: 0.01)])))
-        
-        self.background2 = self.childNode(withName: "long-bg-2") as? SKSpriteNode
-        self.background2?.zPosition = -10
-        self.background2?.run(SKAction.repeatForever(SKAction.sequence([SKAction.run {
-            self.background2?.position.y-=self.velocity
-        }, SKAction.wait(forDuration: 0.01)])))
+        self.buildBG()
         
         self.bestLabel = self.childNode(withName: "bestScore") as? SKLabelNode
         self.bestLabel?.fontName = "Montserrat-Regular"
-        self.bestLabel?.text = "Best: \(bestScore) m"
+        self.bestLabel?.text = "\(bestScore) m"
         
         self.loadRecord()
         
         self.playerScore = self.childNode(withName: "playerScore") as? SKLabelNode
+        
+        let shadow = SKLabelNode(text: "\(score) m")
+        shadow.fontColor = .black
+        shadow.fontSize = playerScore!.fontSize
+        shadow.alpha = 0.5
+        shadow.fontSize = playerScore!.fontSize
+        shadow.fontName = playerScore!.fontName
+        shadow.name = "shadow"
+        shadow.position = CGPoint(x: 0, y: -12)
+        shadow.zPosition = -1
+        
+        let blurNode = SKEffectNode()
+        let blurFilter = CIFilter(name: "CIGaussianBlur")!
+        blurFilter.setValue(6.0, forKey: "inputRadius") // Adjust radius for blur strength
+        blurNode.filter = blurFilter
+        blurNode.addChild(shadow)
+        blurNode.position = shadow.position
+        blurNode.zPosition = shadow.zPosition
+        
         self.playerScore?.fontName = "Montserrat-Regular"
         self.playerScore?.text = "\(score) m"
+        self.playerScore?.addChild(blurNode)
         
         self.playerScore?.run(SKAction.repeatForever(SKAction.sequence([SKAction.run {
             self.score += self.scoreBase
             self.playerScore?.text = "\(self.score) m"
+            shadow.text = "\(self.score) m"
         }, SKAction.wait(forDuration: 0.5)])))
         
         let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
         view.addGestureRecognizer(panRecognizer)
+    }
+    
+    func removeBG(){
+        if let bg = self.childNode(withName: "long-bg"){
+            bg.removeFromParent()
+        }
+        if let bg2 = self.childNode(withName: "long-bg-2"){
+            bg2.removeFromParent()
+        }
+    }
+    
+    func buildBG(){
+        self.bg = self.childNode(withName: "long-bg-1") as? SKSpriteNode
+        self.bg?.zPosition = -10
+        
+        self.bg?.anchorPoint.y = 0
+        self.bg?.anchorPoint.x = 0.5
+        
+        self.bg?.position = CGPoint(x: 0, y: -self.size.height/2)
+        
+        self.originalPositionBG1 = self.bg?.position
+        
+        self.bg?.run(SKAction.repeatForever(SKAction.sequence([SKAction.run {
+            self.bg?.position.y-=self.velocity
+        }, SKAction.wait(forDuration: 0.01)])))
+        
+        self.bg2 = self.childNode(withName: "long-bg-2") as? SKSpriteNode
+        self.bg2?.zPosition = -10
+        
+        self.bg2?.anchorPoint.y = 0
+        self.bg2?.anchorPoint.x = 0.5
+        
+        self.bg2?.position = CGPoint(x: 0, y: self.bg?.frame.maxY ?? 0)
+        
+        self.originalPositionBG2 = self.bg2?.position
+        
+        self.bg2?.run(SKAction.repeatForever(SKAction.sequence([SKAction.run {
+            self.bg2?.position.y-=self.velocity
+        }, SKAction.wait(forDuration: 0.01)])))
+        
+        self.isLoaded = true
     }
     
     @objc func handlePan(_ sender: UIPanGestureRecognizer) {
@@ -145,6 +214,24 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
         case .began:
             self.startLocation = sender.location(in: view)
         case .changed:
+            guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+
+            var events = [CHHapticEvent]()
+
+            for i in stride(from: 0, to: 0.4, by: 0.1) {
+                let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: Float(0.35 - i))
+                let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: Float(0.25 - i))
+                let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: i, duration: 2)
+                events.append(event)
+            }
+            
+            do {
+                let pattern = try CHHapticPattern(events: events, parameters: [])
+                let player = try engine?.makePlayer(with: pattern)
+                try player?.start(atTime: 0)
+            } catch {
+                print("Failed to play pattern: \(error.localizedDescription).")
+            }
             break
         case .ended:
             guard let startLocation = startLocation else { return }
@@ -157,7 +244,6 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
             let velocity = CGVector(dx: translation.x*7.5, dy: -translation.y*6.5)
             
             kite!.applyForce(velocity: velocity, translation: translation)
-            
             self.startLocation = nil
         default:
             break
@@ -217,7 +303,7 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
         
         if record != nil{
             self.bestScore = record!
-            self.bestLabel?.text = "Best: \(self.bestScore) m"
+            self.bestLabel?.text = "\(self.bestScore) m"
         }else{
             
         }
@@ -227,7 +313,7 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
                 leaderboards?[0].loadEntries( for: [GKLocalPlayer.local], timeScope: .allTime) { player, _, _ in
                     if player?.score ?? 0 > record ?? 0{
                         self.bestScore = player?.score ?? 0
-                        self.bestLabel?.text = "Best: \(self.bestScore) m"
+                        self.bestLabel?.text = "\(self.bestScore) m"
                     }
                 }
             }
@@ -292,6 +378,7 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
     }
     
     func playerStuned() {
+        generator.notificationOccurred(.error)
         self.run(SKAction.repeat(SKAction.sequence([
             SKAction.run {
                 self.soundController.fadeOut(sound: .theme)
@@ -323,6 +410,8 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
     }
     
     func playerDeath() {
+        generator.notificationOccurred(.error)
+        
         self.run(SKAction.repeat(SKAction.sequence([
             SKAction.run {
                 self.soundController.fadeOut(sound: .theme)
@@ -367,6 +456,20 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
     func didBegin(_ contact: SKPhysicsContact) {
         if contact.bodyA.node?.name == "kite" ||  contact.bodyB.node?.name == "kite"{
             if contact.bodyA.node?.name == "powerUp" || contact.bodyB.node?.name == "powerUp"{
+                guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+
+                let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 1)
+                let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)
+                let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0, duration: 4)
+                
+                do {
+                    let pattern = try CHHapticPattern(events: [event], parameters: [])
+                    let player = try engine?.makePlayer(with: pattern)
+                    try player?.start(atTime: 0)
+                } catch {
+                    print("Failed to play pattern: \(error.localizedDescription).")
+                }
+                
                 self.run(SKAction.sequence([
                     SKAction.run {
                         self.view!.isUserInteractionEnabled = false
@@ -376,12 +479,12 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
                         emitter?.name = "wind"
                         self.addChild(emitter!)
                         self.childNode(withName: "powerUp")?.removeFromParent()
-                        self.velocity = 3.0
+                        self.velocity = 4.0
                 },
                     SKAction.wait(forDuration: 4),
                     SKAction.run {
                         self.view!.isUserInteractionEnabled = true
-                        self.velocity = 0.5
+                        self.velocity = 0.8
                         self.scoreBase = 1
                         self.childNode(withName: "wind")?.removeFromParent()
                 }
@@ -458,6 +561,11 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
                 showRewarded()
             }
             
+            if touchedNode.name == "instagram"{
+                //instagramStoriesShare()
+                self.shareCapturedImage(captureSceneAsUIImage()!)
+            }
+            
             if touchedNode.name == "home" {
                 touchedNode.run(SKAction.sequence([
                   SKAction.scale(to: 1.1, duration: 0.2),
@@ -479,8 +587,118 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
         }
     }
     
+    func instagramStoriesShare(){
+        guard let capturedImage = captureSceneAsUIImage() else {
+            print("Failed to capture scene")
+            return
+        }
+        
+        let instagramUrl = URL(string: "instagram-stories://share")
+        if UIApplication.shared.canOpenURL(instagramUrl!) {
+            guard let imageData = capturedImage.pngData() else {
+                print("Failed to convert image to data")
+                return
+            }
+            
+            let pasteboardItems: [String: Any] = [
+                "com.instagram.sharedSticker.stickerImage": imageData,
+                "com.instagram.sharedSticker.backgroundTopColor": "#275FA5",
+                "com.instagram.sharedSticker.backgroundBottomColor": "#D9C26B"
+            ]
+            
+            let pasteboardOptions = [
+                UIPasteboard.OptionsKey.expirationDate: Date().addingTimeInterval(300)
+            ]
+            
+            UIPasteboard.general.setItems([pasteboardItems], options: pasteboardOptions)
+            UIApplication.shared.open(instagramUrl!, options: [:]) { (success) in
+                if !success {
+                    print("Deep link failed, fallback to sharing sheet")
+                    self.shareCapturedImage(capturedImage)
+                }
+            }
+        } else {
+            print("Instagram app not installed, fallback to sharing sheet")
+            self.shareCapturedImage(capturedImage)
+        }
+    }
+    
+    func shareCapturedImage(_ image: UIImage) {
+        let newWidth: CGFloat = 1000
+        let newHeight: CGFloat = 1800
+
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+
+        image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+        
+        if let overlayImage = UIImage(named: "canyou") {
+            // Draw the overlay image
+            overlayImage.draw(in: CGRect(x: 55, y: 700, width: overlayImage.size.width-100, height: overlayImage.size.height-30))
+        }
+
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext()
+
+        if let resizedImage = resizedImage {
+            let activityViewController = UIActivityViewController(activityItems: [resizedImage], applicationActivities: nil)
+
+            activityViewController.excludedActivityTypes = [.mail]
+
+            if let topViewController = self.view?.window?.rootViewController {
+                topViewController.present(activityViewController, animated: true, completion: nil)
+            }
+        }
+
+        self.view?.isPaused = true
+    }
+
+
+    
+    func captureSceneAsUIImage() -> UIImage? {
+      guard let view = scene?.view else { return nil }
+      
+      let renderer = UIGraphicsImageRenderer(size: view.bounds.size)
+      let image = renderer.image { context in
+          view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
+      }
+      return image
+    }
+
+    
     override func update(_ currentTime: TimeInterval) {
         createTrail()
+        
+        if isLoaded{
+            if bg2!.position.y < originalPositionBG1!.y && isBGinverted == false{
+                bg?.position = originalPositionBG2!
+                let i = Int.random(in: 2...5)
+                bg?.texture = SKTexture(imageNamed: "long-bg-\(i)")
+                isBGinverted = true
+            }else if bg!.position.y < originalPositionBG1!.y && isBGinverted == true{
+                bg2?.position = originalPositionBG2!
+                
+                let i = Int.random(in: 2...5)
+                bg2?.texture = SKTexture(imageNamed: "long-bg-\(i)")
+                
+                isBGinverted = false
+            }
+        }
+        
+        engine?.stoppedHandler = { reason in
+            print("The engine stopped: \(reason)")
+        }
+
+        // If something goes wrong, attempt to restart the engine immediately
+        engine?.resetHandler = { [weak self] in
+            print("The engine reset")
+
+            do {
+                try self?.engine?.start()
+            } catch {
+                print("Failed to restart the engine: \(error)")
+            }
+        }
         
         if !intersects(kite!.child!) && !dead {
             playerStuned()
