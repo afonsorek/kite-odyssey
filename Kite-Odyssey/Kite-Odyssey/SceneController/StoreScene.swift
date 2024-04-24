@@ -151,7 +151,7 @@ class StoreScene: SKScene{
             
             let blurNode = SKEffectNode()
             let blurFilter = CIFilter(name: "CIGaussianBlur")!
-            blurFilter.setValue(4.0, forKey: "inputRadius") // Adjust radius for blur strength
+            blurFilter.setValue(4.0, forKey: "inputRadius")
             blurNode.filter = blurFilter
             blurNode.addChild(shadow)
             blurNode.position = shadow.position

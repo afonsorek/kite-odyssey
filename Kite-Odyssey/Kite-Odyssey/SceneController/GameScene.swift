@@ -73,10 +73,15 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
     let generator = UINotificationFeedbackGenerator()
     var engine: CHHapticEngine?
     
+    let cameraNode = SKCameraNode()
+    
     override func didMove(to view: SKView) {
         kite = Kite(child: self.childNode(withName: "kite")! as! SKSpriteNode)
         kite?.setBody()
         
+        cameraNode.position = CGPoint(x: 0, y: 0)
+        self.addChild(cameraNode)
+        self.camera = cameraNode
         
         guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
 
@@ -148,7 +153,7 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
         
         let blurNode = SKEffectNode()
         let blurFilter = CIFilter(name: "CIGaussianBlur")!
-        blurFilter.setValue(6.0, forKey: "inputRadius") // Adjust radius for blur strength
+        blurFilter.setValue(6.0, forKey: "inputRadius")
         blurNode.filter = blurFilter
         blurNode.addChild(shadow)
         blurNode.position = shadow.position
@@ -474,6 +479,9 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
                     print("Failed to play pattern: \(error.localizedDescription).")
                 }
                 
+                let zoomOutAction = SKAction.scale(to: 1.2, duration: 0.6)
+                cameraNode.run(zoomOutAction)
+                
                 self.run(SKAction.sequence([
                     SKAction.run {
                         self.view!.isUserInteractionEnabled = false
@@ -487,12 +495,18 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
                 },
                     SKAction.wait(forDuration: 4),
                     SKAction.run {
+                        let zoomInAction = SKAction.scale(to: 1.0, duration: 1)
+                        self.cameraNode.run(zoomInAction)
+                        self.enumerateChildNodes(withName: "enemy", using: { childEnemy, _ in
+                            childEnemy.removeFromParent()
+                        })
                         self.view!.isUserInteractionEnabled = true
                         self.velocity = 0.8
                         self.scoreBase = 1
                         self.childNode(withName: "wind")?.removeFromParent()
                 }
                 ]))
+                
             }else{
                 if isSecondChance == false{
                     playerStuned()
