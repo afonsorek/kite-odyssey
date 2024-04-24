@@ -291,6 +291,7 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
             let randomName = everyList[levelList].randomElement()!
             
             let enemy = Object(image: SKSpriteNode(imageNamed: randomName), name: randomName)
+            enemy.name = "enemy"
             self.addChild(enemy)
             enemy.run(SKAction.sequence([SKAction.wait(forDuration: 3.0), SKAction.run {
                 enemy.removeFromParent()
@@ -400,6 +401,9 @@ let rewardAdId = "ca-app-pub-1875006395039971/4026437896"
                 }
             },
             SKAction.run {
+                self.enumerateChildNodes(withName: "enemy", using: { childEnemy, _ in
+                    childEnemy.removeFromParent()
+                })
                 self.kite?.child?.position = CGPoint(x: 0, y: 0)
                 self.view?.isPaused = true
                 self.view!.isUserInteractionEnabled = true // Enable user interaction after scene transition
